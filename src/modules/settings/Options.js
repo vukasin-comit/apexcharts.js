@@ -581,6 +581,9 @@ export default class Options {
               colors: undefined
             }
           }
+        },
+        series: {
+          connectNulls: true
         }
       },
       colors: undefined,

@@ -459,7 +459,9 @@ class Line {
         pathFromArea = pathFromArea + graphics.line(x, this.zeroY)
       }
 
-      this.handleNullDataPoints(series, pointsPos, i, j, realIndex)
+      if (!w.config.plotOptions.series.connectNulls) {
+        this.handleNullDataPoints(series, pointsPos, i, j, realIndex)
+      }
 
       this._handleMarkersAndLabels({
         pointsPos,
@@ -540,6 +542,23 @@ class Line {
     let graphics = new Graphics(this.ctx)
 
     let curve = w.config.stroke.curve
+
+    const connectNulls = w.config.plotOptions.series.connectNulls
+    const lastNonNullDataPointIndex =
+      series[i].length -
+      2 -
+      series[i]
+        .slice()
+        .reverse()
+        .findIndex((el) => el !== null && typeof el === 'number')
+
+    const firstNonNullDataPointIndex = series[i].findIndex(
+      (el) => el !== null && typeof el === 'number'
+    )
+    const startingPoint = j === firstNonNullDataPointIndex - 1
+    const closingPoint = () => {
+      return j === series[i].length - 2 || j === lastNonNullDataPointIndex
+    }
     const areaBottomY = this.areaBottomY
 
     if (Array.isArray(w.config.stroke.curve)) {
@@ -554,77 +573,96 @@ class Line {
     // CREDITS: https://gionkunz.github.io/chartist-js/
     if (curve === 'smooth') {
       let length = (x - pX) * 0.35
-      if (w.globals.hasNullValues) {
-        if (series[i][j] !== null) {
-          if (series[i][j + 1] !== null) {
-            linePath =
-              graphics.move(pX, pY) +
-              graphics.curve(pX + length, pY, x - length, y, x + 1, y)
-            areaPath =
-              graphics.move(pX + 1, pY) +
-              graphics.curve(pX + length, pY, x - length, y, x + 1, y) +
-              graphics.line(x, areaBottomY) +
-              graphics.line(pX, areaBottomY) +
-              'z'
-          } else {
-            linePath = graphics.move(pX, pY)
-            areaPath = graphics.move(pX, pY) + 'z'
-          }
-        }
 
-        linePaths.push(linePath)
-        areaPaths.push(areaPath)
-      } else {
+      const extendSmoothPaths = () => {
         linePath =
           linePath + graphics.curve(pX + length, pY, x - length, y, x, y)
         areaPath =
           areaPath + graphics.curve(pX + length, pY, x - length, y, x, y)
       }
+      if (w.globals.hasNullValues) {
+        if (!connectNulls || startingPoint) {
+          if (series[i][j] !== null) {
+            if (series[i][j + 1] !== null) {
+              linePath =
+                graphics.move(pX, pY) +
+                graphics.curve(pX + length, pY, x - length, y, x + 1, y)
+              areaPath =
+                graphics.move(pX + 1, pY) +
+                graphics.curve(pX + length, pY, x - length, y, x + 1, y) +
+                graphics.line(x, areaBottomY) +
+                graphics.line(pX, areaBottomY) +
+                'z'
+            } else {
+              linePath = graphics.move(pX, pY)
+              areaPath = graphics.move(pX, pY) + 'z'
+            }
+          }
+
+          linePaths.push(linePath)
+          areaPaths.push(areaPath)
+        } else {
+          if (series[i][j + 1] !== null) {
+            extendSmoothPaths()
+          }
+        }
+      } else {
+        extendSmoothPaths()
+      }
 
       pX = x
       pY = y
 
-      if (j === series[i].length - 2) {
+      if (closingPoint()) {
         // last loop, close path
         areaPath =
           areaPath +
           graphics.curve(pX, pY, x, y, x, areaBottomY) +
           graphics.move(x, y) +
           'z'
-        if (!w.globals.hasNullValues) {
+        if (!w.globals.hasNullValues || connectNulls) {
           linePaths.push(linePath)
           areaPaths.push(areaPath)
         }
       }
     } else {
-      if (series[i][j + 1] === null) {
-        linePath = linePath + graphics.move(x, y)
-
-        const numericOrCatX = w.globals.isXNumeric
-          ? (w.globals.seriesX[realIndex][j] - w.globals.minX) / this.xRatio
-          : x - this.xDivision
-        areaPath =
-          areaPath +
-          graphics.line(numericOrCatX, areaBottomY) +
-          graphics.move(x, y) +
-          'z'
-      }
-      if (series[i][j] === null) {
-        linePath = linePath + graphics.move(x, y)
-        areaPath = areaPath + graphics.move(x, areaBottomY)
+      const extendPaths = () => {
+        if (curve === 'stepline') {
+          linePath =
+            linePath + graphics.line(x, null, 'H') + graphics.line(null, y, 'V')
+          areaPath =
+            areaPath + graphics.line(x, null, 'H') + graphics.line(null, y, 'V')
+        } else if (curve === 'straight') {
+          linePath = linePath + graphics.line(x, y)
+          areaPath = areaPath + graphics.line(x, y)
+        }
       }
 
-      if (curve === 'stepline') {
-        linePath =
-          linePath + graphics.line(x, null, 'H') + graphics.line(null, y, 'V')
-        areaPath =
-          areaPath + graphics.line(x, null, 'H') + graphics.line(null, y, 'V')
-      } else if (curve === 'straight') {
-        linePath = linePath + graphics.line(x, y)
-        areaPath = areaPath + graphics.line(x, y)
+      if (!connectNulls) {
+        if (series[i][j + 1] === null) {
+          linePath = linePath + graphics.move(x, y)
+
+          const numericOrCatX = w.globals.isXNumeric
+            ? (w.globals.seriesX[realIndex][j] - w.globals.minX) / this.xRatio
+            : x - this.xDivision
+          areaPath =
+            areaPath +
+            graphics.line(numericOrCatX, areaBottomY) +
+            graphics.move(x, y) +
+            'z'
+        }
+        if (series[i][j] === null) {
+          linePath = linePath + graphics.move(x, y)
+          areaPath = areaPath + graphics.move(x, areaBottomY)
+        }
+        extendPaths()
       }
 
-      if (j === series[i].length - 2) {
+      if (series[i][j + 1] !== null) {
+        extendPaths()
+      }
+
+      if (closingPoint()) {
         // last loop, close path
         areaPath =
           areaPath + graphics.line(x, areaBottomY) + graphics.move(x, y) + 'z'
