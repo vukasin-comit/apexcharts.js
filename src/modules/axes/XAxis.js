@@ -179,7 +179,8 @@ export default class XAxis {
               : this.xaxisForeColors,
             isPlainText: false,
             cssClass:
-              'apexcharts-xaxis-label ' + w.config.xaxis.labels.style.cssClass
+              'apexcharts-xaxis-label asdfff' +
+              w.config.xaxis.labels.style.cssClass
           })
           elXaxisTexts.add(elText)
           elText.node.appendChild(elTooltipTitle)

@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.39
+ * ApexCharts v1.0.40
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -10147,7 +10147,7 @@
                 fontFamily: _this.xaxisFontFamily,
                 foreColor: Array.isArray(_this.xaxisForeColors) ? getCatForeColor() : _this.xaxisForeColors,
                 isPlainText: false,
-                cssClass: 'apexcharts-xaxis-label ' + w.config.xaxis.labels.style.cssClass
+                cssClass: 'apexcharts-xaxis-label asdfff' + w.config.xaxis.labels.style.cssClass
               });
               elXaxisTexts.add(elText);
               elText.node.appendChild(elTooltipTitle);
