@@ -1,6 +1,6 @@
 {
 	"name": "@29aries/apexcharts",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Interactive JavaScript Charts built on SVG  - forked by 29aries to allow custom labels - forked from 3.20.0",
 	"repository": {
 		"type": "git",
@@ -10,7 +10,13 @@
 	"unpkg": "dist/apexcharts.js",
 	"jsdelivr": "dist/apexcharts.js",
 	"typings": "types/apexcharts.d.ts",
-	"files": [ "src", "dist/*.js", "dist/*.css", "dist/locales/*.json", "types/*.d.ts" ],
+	"files": [
+		"src",
+		"dist/*.js",
+		"dist/*.css",
+		"dist/locales/*.json",
+		"types/*.d.ts"
+	],
 	"scripts": {
 		"dev": "rollup -w -c build/config.js --environment TARGET:web-umd-dev",
 		"dev:cjs": "rollup -w -c build/config.js --environment TARGET:web-cjs",
@@ -94,5 +100,10 @@
 		}
 	],
 	"homepage": "https://apexcharts.com",
-	"keywords": [ "charts", "graphs", "visualizations", "data" ]
+	"keywords": [
+		"charts",
+		"graphs",
+		"visualizations",
+		"data"
+	]
 }
