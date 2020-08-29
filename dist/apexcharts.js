@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.33
+ * ApexCharts v1.0.34
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -10140,7 +10140,7 @@
               });
               elXaxisTexts.add(elImage);
             } else {
-              var _elText = graphics.drawText({
+              var elText = graphics.drawText({
                 x: label.x,
                 y: _this.offY + w.config.xaxis.labels.offsetY + offsetYCorrection - (w.config.xaxis.position === 'top' ? w.globals.xAxisHeight + w.config.xaxis.axisTicks.height - 2 : 0),
                 text: label.text,
@@ -10152,11 +10152,9 @@
                 isPlainText: false,
                 cssClass: 'apexcharts-xaxis-label ' + w.config.xaxis.labels.style.cssClass
               });
-
-              elXaxisTexts.add(_elText);
+              elXaxisTexts.add(elText);
+              elText.node.appendChild(elTooltipTitle);
             }
-
-            elText.node.appendChild(elTooltipTitle);
 
             if (label.text !== '') {
               _this.drawnLabels.push(label.text);

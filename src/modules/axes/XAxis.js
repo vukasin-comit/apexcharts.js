@@ -139,6 +139,7 @@ export default class XAxis {
         if (label.text) {
           w.globals.xaxisLabelsCount++
         }
+
         let elTooltipTitle = document.createElementNS(w.globals.SVGNS, 'title')
         elTooltipTitle.textContent = Array.isArray(label.text)
           ? label.text.join(' ')
@@ -185,10 +186,8 @@ export default class XAxis {
               'apexcharts-xaxis-label ' + w.config.xaxis.labels.style.cssClass
           })
           elXaxisTexts.add(elText)
+          elText.node.appendChild(elTooltipTitle)
         }
-
-        elText.node.appendChild(elTooltipTitle)
-
         if (label.text !== '') {
           this.drawnLabels.push(label.text)
           this.drawnLabelsRects.push(label)
