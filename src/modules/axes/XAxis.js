@@ -60,12 +60,12 @@ export default class XAxis {
 
     let elXaxis = graphics.group({
       class: 'apexcharts-xaxis',
-      transform: `translate(${w.config.xaxis.offsetX}, ${w.config.xaxis.offsetY})`
+      transform: `translate(${w.config.xaxis.offsetX}, ${w.config.xaxis.offsetY})`,
     })
 
     let elXaxisTexts = graphics.group({
       class: 'apexcharts-xaxis-texts-g',
-      transform: `translate(${w.globals.translateXAxisX}, ${w.globals.translateXAxisY})`
+      transform: `translate(${w.globals.translateXAxisX}, ${w.globals.translateXAxisY})`,
     })
 
     elXaxis.add(elXaxisTexts)
@@ -156,7 +156,8 @@ export default class XAxis {
             : this.xaxisForeColors,
           isPlainText: false,
           cssClass:
-            'apexcharts-xaxis-label ' + w.config.xaxis.labels.style.cssClass
+            'apexcharts-xaxis-label apexcharts-xaxis-icon' +
+            w.config.xaxis.labels.style.cssClass,
         })
 
         elXaxisTexts.add(elText)
@@ -176,7 +177,7 @@ export default class XAxis {
 
     if (w.config.xaxis.title.text !== undefined) {
       let elXaxisTitle = graphics.group({
-        class: 'apexcharts-xaxis-title'
+        class: 'apexcharts-xaxis-title',
       })
 
       let elXAxisTitleText = graphics.drawText({
@@ -193,7 +194,7 @@ export default class XAxis {
         fontWeight: w.config.xaxis.title.style.fontWeight,
         foreColor: w.config.xaxis.title.style.color,
         cssClass:
-          'apexcharts-xaxis-title-text ' + w.config.xaxis.title.style.cssClass
+          'apexcharts-xaxis-title-text ' + w.config.xaxis.title.style.cssClass,
       })
 
       elXaxisTitle.add(elXAxisTitleText)
@@ -230,12 +231,12 @@ export default class XAxis {
 
     let elYaxis = graphics.group({
       class: 'apexcharts-yaxis apexcharts-xaxis-inversed',
-      rel: realIndex
+      rel: realIndex,
     })
 
     let elYaxisTexts = graphics.group({
       class: 'apexcharts-yaxis-texts-g apexcharts-xaxis-inversed-texts-g',
-      transform: 'translate(' + translateYAxisX + ', 0)'
+      transform: 'translate(' + translateYAxisX + ', 0)',
     })
 
     elYaxis.add(elYaxisTexts)
@@ -266,7 +267,7 @@ export default class XAxis {
         label = lbFormatter(label, {
           seriesIndex: realIndex,
           dataPointIndex: i,
-          w
+          w,
         })
 
         let multiY = 0
@@ -285,7 +286,7 @@ export default class XAxis {
           fontFamily: ylabels.style.fontFamily,
           fontWeight: ylabels.style.fontWeight,
           isPlainText: false,
-          cssClass: 'apexcharts-yaxis-label ' + ylabels.style.cssClass
+          cssClass: 'apexcharts-yaxis-label ' + ylabels.style.cssClass,
         })
 
         elYaxisTexts.add(elLabel)
@@ -308,7 +309,7 @@ export default class XAxis {
     if (w.config.yaxis[0].title.text !== undefined) {
       let elXaxisTitle = graphics.group({
         class: 'apexcharts-yaxis-title apexcharts-xaxis-title-inversed',
-        transform: 'translate(' + translateYAxisX + ', 0)'
+        transform: 'translate(' + translateYAxisX + ', 0)',
       })
 
       let elXAxisTitleText = graphics.drawText({
@@ -322,7 +323,7 @@ export default class XAxis {
         fontFamily: w.config.yaxis[0].title.style.fontFamily,
         cssClass:
           'apexcharts-yaxis-title-text ' +
-          w.config.yaxis[0].title.style.cssClass
+          w.config.yaxis[0].title.style.cssClass,
       })
 
       elXaxisTitle.add(elXAxisTitleText)
