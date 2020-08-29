@@ -135,38 +135,56 @@ export default class XAxis {
         if (label.text) {
           w.globals.xaxisLabelsCount++
         }
-        let elText = graphics.drawText({
-          x: label.x,
-          y:
-            this.offY +
-            w.config.xaxis.labels.offsetY +
-            offsetYCorrection -
-            (w.config.xaxis.position === 'top'
-              ? w.globals.xAxisHeight + w.config.xaxis.axisTicks.height - 2
-              : 0),
-          text: label.text,
-          textAnchor: 'middle',
-          fontWeight: label.isBold
-            ? 600
-            : w.config.xaxis.labels.style.fontWeight,
-          fontSize: this.xaxisFontSize,
-          fontFamily: this.xaxisFontFamily,
-          foreColor: Array.isArray(this.xaxisForeColors)
-            ? getCatForeColor()
-            : this.xaxisForeColors,
-          isPlainText: false,
-          cssClass:
-            'apexcharts-xaxis-label apexcharts-xaxis-icon' +
-            w.config.xaxis.labels.style.cssClass
-        })
-
-        elXaxisTexts.add(elText)
 
         let elTooltipTitle = document.createElementNS(w.globals.SVGNS, 'title')
         elTooltipTitle.textContent = Array.isArray(label.text)
           ? label.text.join(' ')
           : label.text
-        elText.node.appendChild(elTooltipTitle)
+
+        if (label.text.startsWith('icon.')) {
+          let elImage = graphics.drawImage({
+            x: label.x,
+            y:
+              this.offY +
+              w.config.xaxis.labels.offsetY +
+              offsetYCorrection -
+              (w.config.xaxis.position === 'top'
+                ? w.globals.xAxisHeight + w.config.xaxis.axisTicks.height - 2
+                : 0),
+            path: label.text.substring(5),
+            cssClass:
+              'apexcharts-xaxis-icon' + w.config.xaxis.labels.style.cssClass
+          })
+          elXaxisTexts.add(elImage)
+        } else {
+          let elText = graphics.drawText({
+            x: label.x,
+            y:
+              this.offY +
+              w.config.xaxis.labels.offsetY +
+              offsetYCorrection -
+              (w.config.xaxis.position === 'top'
+                ? w.globals.xAxisHeight + w.config.xaxis.axisTicks.height - 2
+                : 0),
+            text: label.text,
+            textAnchor: 'middle',
+            fontWeight: label.isBold
+              ? 600
+              : w.config.xaxis.labels.style.fontWeight,
+            fontSize: this.xaxisFontSize,
+            fontFamily: this.xaxisFontFamily,
+            foreColor: Array.isArray(this.xaxisForeColors)
+              ? getCatForeColor()
+              : this.xaxisForeColors,
+            isPlainText: false,
+            cssClass:
+              'apexcharts-xaxis-label apexcharts-xaxis-icon' +
+              w.config.xaxis.labels.style.cssClass
+          })
+          elXaxisTexts.add(elText)
+          elText.node.appendChild(elTooltipTitle)
+        }
+
         if (label.text !== '') {
           this.drawnLabels.push(label.text)
           this.drawnLabelsRects.push(label)

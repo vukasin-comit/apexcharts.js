@@ -452,6 +452,12 @@ class Graphics {
 
     return g
   }
+  drawImage({ x, y, width, height, path }) {
+    let w = this.w
+    let img = w.globals.dom.Paper.image(path)
+    img.size(width, height).move(x, y)
+    return img
+  }
 
   drawText({
     x,

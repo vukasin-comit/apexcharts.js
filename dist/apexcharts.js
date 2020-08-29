@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.1
+ * ApexCharts v1.0.2
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -1550,21 +1550,34 @@
         return g;
       }
     }, {
-      key: "drawText",
-      value: function drawText(_ref3) {
+      key: "drawImage",
+      value: function drawImage(_ref3) {
         var x = _ref3.x,
             y = _ref3.y,
-            text = _ref3.text,
-            textAnchor = _ref3.textAnchor,
-            fontSize = _ref3.fontSize,
-            fontFamily = _ref3.fontFamily,
-            fontWeight = _ref3.fontWeight,
-            foreColor = _ref3.foreColor,
-            opacity = _ref3.opacity,
-            _ref3$cssClass = _ref3.cssClass,
-            cssClass = _ref3$cssClass === void 0 ? '' : _ref3$cssClass,
-            _ref3$isPlainText = _ref3.isPlainText,
-            isPlainText = _ref3$isPlainText === void 0 ? true : _ref3$isPlainText;
+            width = _ref3.width,
+            height = _ref3.height,
+            path = _ref3.path;
+        var w = this.w;
+        var img = w.globals.dom.Paper.image(path);
+        img.size(width, height).move(x, y);
+        return img;
+      }
+    }, {
+      key: "drawText",
+      value: function drawText(_ref4) {
+        var x = _ref4.x,
+            y = _ref4.y,
+            text = _ref4.text,
+            textAnchor = _ref4.textAnchor,
+            fontSize = _ref4.fontSize,
+            fontFamily = _ref4.fontFamily,
+            fontWeight = _ref4.fontWeight,
+            foreColor = _ref4.foreColor,
+            opacity = _ref4.opacity,
+            _ref4$cssClass = _ref4.cssClass,
+            cssClass = _ref4$cssClass === void 0 ? '' : _ref4$cssClass,
+            _ref4$isPlainText = _ref4.isPlainText,
+            isPlainText = _ref4$isPlainText === void 0 ? true : _ref4$isPlainText;
         var w = this.w;
         if (typeof text === 'undefined') text = '';
 
@@ -10107,22 +10120,33 @@
               w.globals.xaxisLabelsCount++;
             }
 
-            var elText = graphics.drawText({
-              x: label.x,
-              y: _this.offY + w.config.xaxis.labels.offsetY + offsetYCorrection - (w.config.xaxis.position === 'top' ? w.globals.xAxisHeight + w.config.xaxis.axisTicks.height - 2 : 0),
-              text: label.text,
-              textAnchor: 'middle',
-              fontWeight: label.isBold ? 600 : w.config.xaxis.labels.style.fontWeight,
-              fontSize: _this.xaxisFontSize,
-              fontFamily: _this.xaxisFontFamily,
-              foreColor: Array.isArray(_this.xaxisForeColors) ? getCatForeColor() : _this.xaxisForeColors,
-              isPlainText: false,
-              cssClass: 'apexcharts-xaxis-label apexcharts-xaxis-icon' + w.config.xaxis.labels.style.cssClass
-            });
-            elXaxisTexts.add(elText);
             var elTooltipTitle = document.createElementNS(w.globals.SVGNS, 'title');
             elTooltipTitle.textContent = Array.isArray(label.text) ? label.text.join(' ') : label.text;
-            elText.node.appendChild(elTooltipTitle);
+
+            if (label.text.startsWith('icon.')) {
+              var elImage = graphics.drawImage({
+                x: label.x,
+                y: _this.offY + w.config.xaxis.labels.offsetY + offsetYCorrection - (w.config.xaxis.position === 'top' ? w.globals.xAxisHeight + w.config.xaxis.axisTicks.height - 2 : 0),
+                path: label.text.substring(5),
+                cssClass: 'apexcharts-xaxis-icon' + w.config.xaxis.labels.style.cssClass
+              });
+              elXaxisTexts.add(elImage);
+            } else {
+              var elText = graphics.drawText({
+                x: label.x,
+                y: _this.offY + w.config.xaxis.labels.offsetY + offsetYCorrection - (w.config.xaxis.position === 'top' ? w.globals.xAxisHeight + w.config.xaxis.axisTicks.height - 2 : 0),
+                text: label.text,
+                textAnchor: 'middle',
+                fontWeight: label.isBold ? 600 : w.config.xaxis.labels.style.fontWeight,
+                fontSize: _this.xaxisFontSize,
+                fontFamily: _this.xaxisFontFamily,
+                foreColor: Array.isArray(_this.xaxisForeColors) ? getCatForeColor() : _this.xaxisForeColors,
+                isPlainText: false,
+                cssClass: 'apexcharts-xaxis-label apexcharts-xaxis-icon' + w.config.xaxis.labels.style.cssClass
+              });
+              elXaxisTexts.add(elText);
+              elText.node.appendChild(elTooltipTitle);
+            }
 
             if (label.text !== '') {
               _this.drawnLabels.push(label.text);
