@@ -120,8 +120,9 @@ export default class XAxis {
         const imagePath = ''
         if (label.text.startsWith('icon.')) {
           image = label.text.substring(5)
-          label.text = ' '
+          label.text = 'icon'
         }
+
         label = this.axesUtils.checkForOverflowingLabels(
           i,
           label,
@@ -140,11 +141,6 @@ export default class XAxis {
           w.globals.xaxisLabelsCount++
         }
 
-        let elTooltipTitle = document.createElementNS(w.globals.SVGNS, 'title')
-        elTooltipTitle.textContent = Array.isArray(label.text)
-          ? label.text.join(' ')
-          : label.text
-
         if (imagePath.length > 0) {
           let elImage = graphics.drawImage({
             x: label.x - 16,
@@ -162,6 +158,13 @@ export default class XAxis {
           })
           elXaxisTexts.add(elImage)
         } else {
+          let elTooltipTitle = document.createElementNS(
+            w.globals.SVGNS,
+            'title'
+          )
+          elTooltipTitle.textContent = Array.isArray(label.text)
+            ? label.text.join(' ')
+            : label.text
           let elText = graphics.drawText({
             x: label.x,
             y:
@@ -187,11 +190,12 @@ export default class XAxis {
           })
           elXaxisTexts.add(elText)
           elText.node.appendChild(elTooltipTitle)
+          if (label.text !== '') {
+            this.drawnLabels.push(label.text)
+            this.drawnLabelsRects.push(label)
+          }
         }
-        if (label.text !== '') {
-          this.drawnLabels.push(label.text)
-          this.drawnLabelsRects.push(label)
-        }
+
         xPos = xPos + colWidth
       }
     }

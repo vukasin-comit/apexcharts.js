@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.34
+ * ApexCharts v1.0.35
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -10114,7 +10114,7 @@
 
             if (label.text.startsWith('icon.')) {
               image = label.text.substring(5);
-              label.text = ' ';
+              label.text = 'icon';
             }
 
             label = _this.axesUtils.checkForOverflowingLabels(_i, label, labelsLen, _this.drawnLabels, _this.drawnLabelsRects);
@@ -10127,9 +10127,6 @@
               w.globals.xaxisLabelsCount++;
             }
 
-            var elTooltipTitle = document.createElementNS(w.globals.SVGNS, 'title');
-            elTooltipTitle.textContent = Array.isArray(label.text) ? label.text.join(' ') : label.text;
-
             if (imagePath.length > 0) {
               var elImage = graphics.drawImage({
                 x: label.x - 16,
@@ -10140,6 +10137,8 @@
               });
               elXaxisTexts.add(elImage);
             } else {
+              var elTooltipTitle = document.createElementNS(w.globals.SVGNS, 'title');
+              elTooltipTitle.textContent = Array.isArray(label.text) ? label.text.join(' ') : label.text;
               var elText = graphics.drawText({
                 x: label.x,
                 y: _this.offY + w.config.xaxis.labels.offsetY + offsetYCorrection - (w.config.xaxis.position === 'top' ? w.globals.xAxisHeight + w.config.xaxis.axisTicks.height - 2 : 0),
@@ -10154,12 +10153,12 @@
               });
               elXaxisTexts.add(elText);
               elText.node.appendChild(elTooltipTitle);
-            }
 
-            if (label.text !== '') {
-              _this.drawnLabels.push(label.text);
+              if (label.text !== '') {
+                _this.drawnLabels.push(label.text);
 
-              _this.drawnLabelsRects.push(label);
+                _this.drawnLabelsRects.push(label);
+              }
             }
 
             xPos = xPos + colWidth;
