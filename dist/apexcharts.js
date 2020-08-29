@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.30
+ * ApexCharts v1.0.31
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -10131,6 +10131,7 @@
                 height: 32,
                 path: label.text.substring(5)
               });
+              label.text = 'icon';
               elXaxisTexts.add(elImage);
             } else {
               var elText = graphics.drawText({

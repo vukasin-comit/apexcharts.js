@@ -156,6 +156,7 @@ export default class XAxis {
             height: 32,
             path: label.text.substring(5)
           })
+          label.text = 'icon'
           elXaxisTexts.add(elImage)
         } else {
           let elText = graphics.drawText({
