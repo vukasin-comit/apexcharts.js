@@ -117,11 +117,14 @@ export default class XAxis {
         if (w.globals.rotateXLabels) {
           offsetYCorrection = 22
         }
-        let imagePath = ''
-        if (label.text.startsWith('icon.')) {
-          imagePath = label.text.substring(5)
-          label.text = 'icon'
-        }
+
+        label = this.axesUtils.checkForOverflowingLabels(
+          i,
+          label,
+          labelsLen,
+          this.drawnLabels,
+          this.drawnLabelsRects
+        )
 
         const getCatForeColor = () => {
           return w.config.xaxis.convertedCatToNumeric
@@ -133,7 +136,12 @@ export default class XAxis {
           w.globals.xaxisLabelsCount++
         }
 
-        if (imagePath.length > 0) {
+        let elTooltipTitle = document.createElementNS(w.globals.SVGNS, 'title')
+        elTooltipTitle.textContent = Array.isArray(label.text)
+          ? label.text.join(' ')
+          : label.text
+
+        if (label.path) {
           let elImage = graphics.drawImage({
             x: label.x - 16,
             y:
@@ -146,18 +154,10 @@ export default class XAxis {
               16,
             width: 32,
             height: 32,
-            path: imagePath
+            path: label.path
           })
           elXaxisTexts.add(elImage)
         } else {
-          let elTooltipTitle = document.createElementNS(
-            w.globals.SVGNS,
-            'title'
-          )
-          elTooltipTitle.textContent = Array.isArray(label.text)
-            ? label.text.join(' ')
-            : label.text
-
           let elText = graphics.drawText({
             x: label.x,
             y:
@@ -179,17 +179,15 @@ export default class XAxis {
               : this.xaxisForeColors,
             isPlainText: false,
             cssClass:
-              'apexcharts-xaxis-label asdfff' +
-              w.config.xaxis.labels.style.cssClass
+              'apexcharts-xaxis-label ' + w.config.xaxis.labels.style.cssClass
           })
           elXaxisTexts.add(elText)
           elText.node.appendChild(elTooltipTitle)
-          if (label.text !== '') {
-            this.drawnLabels.push(label.text)
-            this.drawnLabelsRects.push(label)
-          }
         }
-
+        if (label.text !== '') {
+          this.drawnLabels.push(label.text)
+          this.drawnLabelsRects.push(label)
+        }
         xPos = xPos + colWidth
       }
     }

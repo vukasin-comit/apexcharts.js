@@ -12,6 +12,11 @@ export default class AxesUtils {
   getLabel(labels, timescaleLabels, x, i, drawnLabels = [], fontSize = '12px') {
     const w = this.w
     let rawLabel = typeof labels[i] === 'undefined' ? '' : labels[i]
+    let imagePath = ''
+    if (rawLabel.startsWith('icon.')) {
+      imagePath = rawLabel.substring(5)
+      rawLabel = 'icon'
+    }
     let label = rawLabel
 
     let xlbFormatter = w.globals.xLabelFormatter
@@ -91,6 +96,7 @@ export default class AxesUtils {
       x,
       text: label,
       textRect,
+      path: imagePath,
       isBold
     }
   }
