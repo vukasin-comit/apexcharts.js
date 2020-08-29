@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.31
+ * ApexCharts v1.0.32
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -10120,9 +10120,6 @@
               w.globals.xaxisLabelsCount++;
             }
 
-            var elTooltipTitle = document.createElementNS(w.globals.SVGNS, 'title');
-            elTooltipTitle.textContent = Array.isArray(label.text) ? label.text.join(' ') : label.text;
-
             if (label.text.startsWith('icon.')) {
               var elImage = graphics.drawImage({
                 x: label.x - 16,
@@ -10131,9 +10128,10 @@
                 height: 32,
                 path: label.text.substring(5)
               });
-              label.text = 'icon';
               elXaxisTexts.add(elImage);
             } else {
+              var elTooltipTitle = document.createElementNS(w.globals.SVGNS, 'title');
+              elTooltipTitle.textContent = Array.isArray(label.text) ? label.text.join(' ') : label.text;
               var elText = graphics.drawText({
                 x: label.x,
                 y: _this.offY + w.config.xaxis.labels.offsetY + offsetYCorrection - (w.config.xaxis.position === 'top' ? w.globals.xAxisHeight + w.config.xaxis.axisTicks.height - 2 : 0),
@@ -10144,16 +10142,16 @@
                 fontFamily: _this.xaxisFontFamily,
                 foreColor: Array.isArray(_this.xaxisForeColors) ? getCatForeColor() : _this.xaxisForeColors,
                 isPlainText: false,
-                cssClass: 'apexcharts-xaxis-label apexcharts-xaxis-icon' + w.config.xaxis.labels.style.cssClass
+                cssClass: 'apexcharts-xaxis-label ' + w.config.xaxis.labels.style.cssClass
               });
               elXaxisTexts.add(elText);
               elText.node.appendChild(elTooltipTitle);
-            }
 
-            if (label.text !== '') {
-              _this.drawnLabels.push(label.text);
+              if (label.text !== '') {
+                _this.drawnLabels.push(label.text);
 
-              _this.drawnLabelsRects.push(label);
+                _this.drawnLabelsRects.push(label);
+              }
             }
 
             xPos = xPos + colWidth;
