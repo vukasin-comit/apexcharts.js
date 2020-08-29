@@ -121,15 +121,15 @@ export default class XAxis {
         if (label.text.startsWith('icon.')) {
           imagePath = label.text.substring(5)
           label.text = 'icon'
+        } else {
+          label = this.axesUtils.checkForOverflowingLabels(
+            i,
+            label,
+            labelsLen,
+            this.drawnLabels,
+            this.drawnLabelsRects
+          )
         }
-
-        label = this.axesUtils.checkForOverflowingLabels(
-          i,
-          label,
-          labelsLen,
-          this.drawnLabels,
-          this.drawnLabelsRects
-        )
 
         const getCatForeColor = () => {
           return w.config.xaxis.convertedCatToNumeric

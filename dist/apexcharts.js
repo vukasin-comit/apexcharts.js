@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.36
+ * ApexCharts v1.0.37
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -10115,9 +10115,9 @@
             if (label.text.startsWith('icon.')) {
               imagePath = label.text.substring(5);
               label.text = 'icon';
+            } else {
+              label = _this.axesUtils.checkForOverflowingLabels(_i, label, labelsLen, _this.drawnLabels, _this.drawnLabelsRects);
             }
-
-            label = _this.axesUtils.checkForOverflowingLabels(_i, label, labelsLen, _this.drawnLabels, _this.drawnLabelsRects);
 
             var getCatForeColor = function getCatForeColor() {
               return w.config.xaxis.convertedCatToNumeric ? _this.xaxisForeColors[w.globals.minX + _i - 1] : _this.xaxisForeColors[_i];
