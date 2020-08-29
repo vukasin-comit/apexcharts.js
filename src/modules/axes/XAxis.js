@@ -143,17 +143,18 @@ export default class XAxis {
 
         if (label.text.startsWith('icon.')) {
           let elImage = graphics.drawImage({
-            x: label.x,
+            x: label.x - 16,
             y:
               this.offY +
               w.config.xaxis.labels.offsetY +
               offsetYCorrection -
               (w.config.xaxis.position === 'top'
                 ? w.globals.xAxisHeight + w.config.xaxis.axisTicks.height - 2
-                : 0),
-            path: label.text.substring(5),
-            cssClass:
-              'apexcharts-xaxis-icon' + w.config.xaxis.labels.style.cssClass
+                : 0) -
+              16,
+            width: 32,
+            height: 32,
+            path: label.text.substring(5)
           })
           elXaxisTexts.add(elImage)
         } else {

@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.2
+ * ApexCharts v1.0.30
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -10125,10 +10125,11 @@
 
             if (label.text.startsWith('icon.')) {
               var elImage = graphics.drawImage({
-                x: label.x,
-                y: _this.offY + w.config.xaxis.labels.offsetY + offsetYCorrection - (w.config.xaxis.position === 'top' ? w.globals.xAxisHeight + w.config.xaxis.axisTicks.height - 2 : 0),
-                path: label.text.substring(5),
-                cssClass: 'apexcharts-xaxis-icon' + w.config.xaxis.labels.style.cssClass
+                x: label.x - 16,
+                y: _this.offY + w.config.xaxis.labels.offsetY + offsetYCorrection - (w.config.xaxis.position === 'top' ? w.globals.xAxisHeight + w.config.xaxis.axisTicks.height - 2 : 0) - 16,
+                width: 32,
+                height: 32,
+                path: label.text.substring(5)
               });
               elXaxisTexts.add(elImage);
             } else {
