@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.32
+ * ApexCharts v1.0.33
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -10110,6 +10110,13 @@
               offsetYCorrection = 22;
             }
 
+            var imagePath = '';
+
+            if (label.text.startsWith('icon.')) {
+              image = label.text.substring(5);
+              label.text = ' ';
+            }
+
             label = _this.axesUtils.checkForOverflowingLabels(_i, label, labelsLen, _this.drawnLabels, _this.drawnLabelsRects);
 
             var getCatForeColor = function getCatForeColor() {
@@ -10120,19 +10127,20 @@
               w.globals.xaxisLabelsCount++;
             }
 
-            if (label.text.startsWith('icon.')) {
+            var elTooltipTitle = document.createElementNS(w.globals.SVGNS, 'title');
+            elTooltipTitle.textContent = Array.isArray(label.text) ? label.text.join(' ') : label.text;
+
+            if (imagePath.length > 0) {
               var elImage = graphics.drawImage({
                 x: label.x - 16,
                 y: _this.offY + w.config.xaxis.labels.offsetY + offsetYCorrection - (w.config.xaxis.position === 'top' ? w.globals.xAxisHeight + w.config.xaxis.axisTicks.height - 2 : 0) - 16,
                 width: 32,
                 height: 32,
-                path: label.text.substring(5)
+                path: imagePath
               });
               elXaxisTexts.add(elImage);
             } else {
-              var elTooltipTitle = document.createElementNS(w.globals.SVGNS, 'title');
-              elTooltipTitle.textContent = Array.isArray(label.text) ? label.text.join(' ') : label.text;
-              var elText = graphics.drawText({
+              var _elText = graphics.drawText({
                 x: label.x,
                 y: _this.offY + w.config.xaxis.labels.offsetY + offsetYCorrection - (w.config.xaxis.position === 'top' ? w.globals.xAxisHeight + w.config.xaxis.axisTicks.height - 2 : 0),
                 text: label.text,
@@ -10144,14 +10152,16 @@
                 isPlainText: false,
                 cssClass: 'apexcharts-xaxis-label ' + w.config.xaxis.labels.style.cssClass
               });
-              elXaxisTexts.add(elText);
-              elText.node.appendChild(elTooltipTitle);
 
-              if (label.text !== '') {
-                _this.drawnLabels.push(label.text);
+              elXaxisTexts.add(_elText);
+            }
 
-                _this.drawnLabelsRects.push(label);
-              }
+            elText.node.appendChild(elTooltipTitle);
+
+            if (label.text !== '') {
+              _this.drawnLabels.push(label.text);
+
+              _this.drawnLabelsRects.push(label);
             }
 
             xPos = xPos + colWidth;

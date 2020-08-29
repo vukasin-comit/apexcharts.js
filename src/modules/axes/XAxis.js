@@ -117,7 +117,11 @@ export default class XAxis {
         if (w.globals.rotateXLabels) {
           offsetYCorrection = 22
         }
-
+        const imagePath = ''
+        if (label.text.startsWith('icon.')) {
+          image = label.text.substring(5)
+          label.text = ' '
+        }
         label = this.axesUtils.checkForOverflowingLabels(
           i,
           label,
@@ -135,8 +139,12 @@ export default class XAxis {
         if (label.text) {
           w.globals.xaxisLabelsCount++
         }
+        let elTooltipTitle = document.createElementNS(w.globals.SVGNS, 'title')
+        elTooltipTitle.textContent = Array.isArray(label.text)
+          ? label.text.join(' ')
+          : label.text
 
-        if (label.text.startsWith('icon.')) {
+        if (imagePath.length > 0) {
           let elImage = graphics.drawImage({
             x: label.x - 16,
             y:
@@ -149,17 +157,10 @@ export default class XAxis {
               16,
             width: 32,
             height: 32,
-            path: label.text.substring(5)
+            path: imagePath
           })
           elXaxisTexts.add(elImage)
         } else {
-          let elTooltipTitle = document.createElementNS(
-            w.globals.SVGNS,
-            'title'
-          )
-          elTooltipTitle.textContent = Array.isArray(label.text)
-            ? label.text.join(' ')
-            : label.text
           let elText = graphics.drawText({
             x: label.x,
             y:
@@ -184,13 +185,14 @@ export default class XAxis {
               'apexcharts-xaxis-label ' + w.config.xaxis.labels.style.cssClass
           })
           elXaxisTexts.add(elText)
-          elText.node.appendChild(elTooltipTitle)
-          if (label.text !== '') {
-            this.drawnLabels.push(label.text)
-            this.drawnLabelsRects.push(label)
-          }
         }
 
+        elText.node.appendChild(elTooltipTitle)
+
+        if (label.text !== '') {
+          this.drawnLabels.push(label.text)
+          this.drawnLabelsRects.push(label)
+        }
         xPos = xPos + colWidth
       }
     }
