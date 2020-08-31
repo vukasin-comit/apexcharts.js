@@ -1,6 +1,6 @@
 {
 	"name": "@29aries/apexcharts",
-	"version": "1.0.44",
+	"version": "1.0.45",
 	"description": "Interactive JavaScript Charts built on SVG  - forked by 29aries to allow custom labels - forked from 3.20.0",
 	"repository": {
 		"type": "git",
