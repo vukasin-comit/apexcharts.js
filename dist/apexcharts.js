@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.47
+ * ApexCharts v1.0.48
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -13137,8 +13137,7 @@
 
           if (rect.width * xaxisLabels.length > w.globals.svgWidth - this.dCtx.lgWidthForSideLegends - this.dCtx.yAxisWidth - this.dCtx.gridPad.left - this.dCtx.gridPad.right && w.config.xaxis.labels.rotate !== 0 || w.config.xaxis.labels.rotateAlways) {
             if (!w.globals.isBarHorizontal) {
-              w.globals.rotateXLabels = true;
-
+              //w.globals.rotateXLabels = true
               var getRotatedTextRects = function getRotatedTextRects(text) {
                 return graphics.getTextRects(text, w.config.xaxis.labels.style.fontSize, w.config.xaxis.labels.style.fontFamily, "rotate(".concat(w.config.xaxis.labels.rotate, " 0 0)"), false);
               };
