@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.46
+ * ApexCharts v1.0.47
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -10103,10 +10103,10 @@
           var _loop = function _loop(_i) {
             var x = xPos - colWidth / 2 + w.config.xaxis.labels.offsetX;
             var imgPath = '';
-            var l = labels[_i];
+            var rawLabel = typeof labels[_i] === 'undefined' ? '' : labels[_i];
 
-            if (l.startsWith('icon.')) {
-              imgPath = l.substring(5);
+            if (rawLabel.startsWith('icon.')) {
+              imgPath = rawLabel.substring(5);
             }
 
             if (_i === 0 && labelsLen === 1 && colWidth / 2 === xPos && w.globals.dataPoints === 1) {
@@ -10126,7 +10126,7 @@
               w.globals.xaxisLabelsCount++;
             }
 
-            if (imgPath.length > 1) {
+            if (imgPath.length > 0) {
               var elImage = graphics.drawImage({
                 x: label.x - 16,
                 y: _this.offY + w.config.xaxis.labels.offsetY + offsetYCorrection - (w.config.xaxis.position === 'top' ? w.globals.xAxisHeight + w.config.xaxis.axisTicks.height - 2 : 0) - 16,

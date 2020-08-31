@@ -95,9 +95,9 @@ export default class XAxis {
       for (let i = 0; i <= labelsLen - 1; i++) {
         let x = xPos - colWidth / 2 + w.config.xaxis.labels.offsetX
         let imgPath = ''
-        let l = labels[i]
-        if (l.startsWith('icon.')) {
-          imgPath = l.substring(5)
+        let rawLabel = typeof labels[i] === 'undefined' ? '' : labels[i]
+        if (rawLabel.startsWith('icon.')) {
+          imgPath = rawLabel.substring(5)
         }
         if (
           i === 0 &&
@@ -129,7 +129,7 @@ export default class XAxis {
           w.globals.xaxisLabelsCount++
         }
 
-        if (imgPath.length > 1) {
+        if (imgPath.length > 0) {
           let elImage = graphics.drawImage({
             x: label.x - 16,
             y:
