@@ -21,7 +21,7 @@ export default class XAxis {
       this.xaxisLabels = w.globals.timescaleLabels.slice()
     }
     for (let i = 0; i < this.xaxisLabels.length; i++) {
-      let text = this.xaxisLabels[i]
+      let text = this.xaxisLabels[i] + ''
       let path = ''
       if (text.startsWith('icon.')) {
         path = text.substring(5)

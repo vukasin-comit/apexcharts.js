@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.49
+ * ApexCharts v1.0.50
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -10029,7 +10029,7 @@
       }
 
       for (var i = 0; i < this.xaxisLabels.length; i++) {
-        var text = this.xaxisLabels[i];
+        var text = this.xaxisLabels[i] + '';
         var path = '';
 
         if (text.startsWith('icon.')) {
