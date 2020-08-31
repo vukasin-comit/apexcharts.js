@@ -104,7 +104,7 @@ export default class DimXAxis {
         w.config.xaxis.labels.rotateAlways
       ) {
         if (!w.globals.isBarHorizontal) {
-          //w.globals.rotateXLabels = true
+          w.globals.rotateXLabels = true
           const getRotatedTextRects = (text) => {
             return graphics.getTextRects(
               text,

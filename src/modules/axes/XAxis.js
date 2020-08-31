@@ -14,11 +14,20 @@ export default class XAxis {
 
     const w = this.w
     this.axesUtils = new AxesUtils(ctx)
-    console.log(w.config.xaxis)
     this.xaxisLabels = w.globals.labels.slice()
+    this.xLabels = []
     if (w.globals.timescaleLabels.length > 0 && !w.globals.isBarHorizontal) {
       //  timeline labels are there and chart is not rangeabr timeline
       this.xaxisLabels = w.globals.timescaleLabels.slice()
+    }
+    for (let i = 0; i < this.xaxisLabels.length; i++) {
+      let text = this.xaxisLabels[i]
+      let path = ''
+      if (text.startsWith('icon.')) {
+        path = text.substring(5)
+        text = 'icon'
+      }
+      this.xLabels[i] = { text, path }
     }
 
     this.drawnLabels = []
@@ -76,8 +85,8 @@ export default class XAxis {
     let xPos = w.globals.padHorizontal
     let labels = []
 
-    for (let i = 0; i < this.xaxisLabels.length; i++) {
-      labels.push(this.xaxisLabels[i])
+    for (let i = 0; i < this.xLabels.length; i++) {
+      labels.push(this.xLabels[i])
     }
 
     let labelsLen = labels.length
@@ -94,11 +103,7 @@ export default class XAxis {
     if (w.config.xaxis.labels.show) {
       for (let i = 0; i <= labelsLen - 1; i++) {
         let x = xPos - colWidth / 2 + w.config.xaxis.labels.offsetX
-        let imgPath = ''
-        let rawLabel = typeof labels[i] === 'undefined' ? '' : labels[i]
-        if (rawLabel.startsWith('icon.')) {
-          imgPath = rawLabel.substring(5)
-        }
+
         if (
           i === 0 &&
           labelsLen === 1 &&
@@ -118,6 +123,17 @@ export default class XAxis {
         )
 
         let offsetYCorrection = 28
+        if (w.globals.rotateXLabels) {
+          offsetYCorrection = 22
+        }
+
+        label = this.axesUtils.checkForOverflowingLabels(
+          i,
+          label,
+          labelsLen,
+          this.drawnLabels,
+          this.drawnLabelsRects
+        )
 
         const getCatForeColor = () => {
           return w.config.xaxis.convertedCatToNumeric
@@ -129,7 +145,12 @@ export default class XAxis {
           w.globals.xaxisLabelsCount++
         }
 
-        if (imgPath.length > 0) {
+        let elTooltipTitle = document.createElementNS(w.globals.SVGNS, 'title')
+        elTooltipTitle.textContent = Array.isArray(label.text)
+          ? label.text.join(' ')
+          : label.text
+
+        if (label.path.length > 0) {
           let elImage = graphics.drawImage({
             x: label.x - 16,
             y:
@@ -142,18 +163,10 @@ export default class XAxis {
               16,
             width: 32,
             height: 32,
-            path: imgPath
+            path: label.path
           })
           elXaxisTexts.add(elImage)
         } else {
-          let elTooltipTitle = document.createElementNS(
-            w.globals.SVGNS,
-            'title'
-          )
-          elTooltipTitle.textContent = Array.isArray(label.text)
-            ? label.text.join(' ')
-            : label.text
-
           let elText = graphics.drawText({
             x: label.x,
             y:
@@ -175,16 +188,17 @@ export default class XAxis {
               : this.xaxisForeColors,
             isPlainText: false,
             cssClass:
-              'apexcharts-xaxis-label ' + w.config.xaxis.labels.style.cssClass
+              'apexcharts-xaxis-label apexcharts-xaxis-icon' +
+              w.config.xaxis.labels.style.cssClass
           })
           elXaxisTexts.add(elText)
           elText.node.appendChild(elTooltipTitle)
-          if (label.text !== '') {
-            this.drawnLabels.push(label.text)
-            this.drawnLabelsRects.push(label)
-          }
         }
 
+        if (label.text !== '') {
+          this.drawnLabels.push(label.text)
+          this.drawnLabelsRects.push(label)
+        }
         xPos = xPos + colWidth
       }
     }
@@ -233,7 +247,6 @@ export default class XAxis {
 
     return elXaxis
   }
-
   // this actually becomes the vertical axis (for bar charts)
   drawXaxisInversed(realIndex) {
     let w = this.w

@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.48
+ * ApexCharts v1.0.49
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -9564,12 +9564,8 @@
         var drawnLabels = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : [];
         var fontSize = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : '12px';
         var w = this.w;
-        var rawLabel = typeof labels[i] === 'undefined' ? '' : labels[i];
-
-        if (rawLabel.startsWith('icon.')) {
-          rawLabel = 'icon';
-        }
-
+        var rawLabel = typeof labels[i].text === 'undefined' ? '' : labels[i].text;
+        var path = typeof labels[i].path === 'undefined' ? '' : labels[i].path;
         var label = rawLabel;
         var xlbFormatter = w.globals.xLabelFormatter;
         var customFormatter = w.config.xaxis.labels.formatter;
@@ -9579,7 +9575,7 @@
         label = xFormat.xLabelFormat(xlbFormatter, rawLabel, timestamp);
 
         if (customFormatter !== undefined) {
-          label = customFormatter(rawLabel, label, i);
+          label = customFormatter(rawLabel, labels[i].text, i);
         }
 
         var determineHighestUnit = function determineHighestUnit(unit) {
@@ -9628,6 +9624,7 @@
         return {
           x: x,
           text: label,
+          path: path,
           textRect: textRect,
           isBold: isBold
         };
@@ -10023,12 +10020,27 @@
       this.w = ctx.w;
       var w = this.w;
       this.axesUtils = new AxesUtils(ctx);
-      console.log(w.config.xaxis);
       this.xaxisLabels = w.globals.labels.slice();
+      this.xLabels = [];
 
       if (w.globals.timescaleLabels.length > 0 && !w.globals.isBarHorizontal) {
         //  timeline labels are there and chart is not rangeabr timeline
         this.xaxisLabels = w.globals.timescaleLabels.slice();
+      }
+
+      for (var i = 0; i < this.xaxisLabels.length; i++) {
+        var text = this.xaxisLabels[i];
+        var path = '';
+
+        if (text.startsWith('icon.')) {
+          path = text.substring(5);
+          text = 'icon';
+        }
+
+        this.xLabels[i] = {
+          text: text,
+          path: path
+        };
       }
 
       this.drawnLabels = [];
@@ -10084,8 +10096,8 @@
         var xPos = w.globals.padHorizontal;
         var labels = [];
 
-        for (var i = 0; i < this.xaxisLabels.length; i++) {
-          labels.push(this.xaxisLabels[i]);
+        for (var i = 0; i < this.xLabels.length; i++) {
+          labels.push(this.xLabels[i]);
         }
 
         var labelsLen = labels.length;
@@ -10102,12 +10114,6 @@
         if (w.config.xaxis.labels.show) {
           var _loop = function _loop(_i) {
             var x = xPos - colWidth / 2 + w.config.xaxis.labels.offsetX;
-            var imgPath = '';
-            var rawLabel = typeof labels[_i] === 'undefined' ? '' : labels[_i];
-
-            if (rawLabel.startsWith('icon.')) {
-              imgPath = rawLabel.substring(5);
-            }
 
             if (_i === 0 && labelsLen === 1 && colWidth / 2 === xPos && w.globals.dataPoints === 1) {
               // single datapoint
@@ -10118,6 +10124,12 @@
 
             var offsetYCorrection = 28;
 
+            if (w.globals.rotateXLabels) {
+              offsetYCorrection = 22;
+            }
+
+            label = _this.axesUtils.checkForOverflowingLabels(_i, label, labelsLen, _this.drawnLabels, _this.drawnLabelsRects);
+
             var getCatForeColor = function getCatForeColor() {
               return w.config.xaxis.convertedCatToNumeric ? _this.xaxisForeColors[w.globals.minX + _i - 1] : _this.xaxisForeColors[_i];
             };
@@ -10126,18 +10138,19 @@
               w.globals.xaxisLabelsCount++;
             }
 
-            if (imgPath.length > 0) {
+            var elTooltipTitle = document.createElementNS(w.globals.SVGNS, 'title');
+            elTooltipTitle.textContent = Array.isArray(label.text) ? label.text.join(' ') : label.text;
+
+            if (label.path.length > 0) {
               var elImage = graphics.drawImage({
                 x: label.x - 16,
                 y: _this.offY + w.config.xaxis.labels.offsetY + offsetYCorrection - (w.config.xaxis.position === 'top' ? w.globals.xAxisHeight + w.config.xaxis.axisTicks.height - 2 : 0) - 16,
                 width: 32,
                 height: 32,
-                path: imgPath
+                path: label.path
               });
               elXaxisTexts.add(elImage);
             } else {
-              var elTooltipTitle = document.createElementNS(w.globals.SVGNS, 'title');
-              elTooltipTitle.textContent = Array.isArray(label.text) ? label.text.join(' ') : label.text;
               var elText = graphics.drawText({
                 x: label.x,
                 y: _this.offY + w.config.xaxis.labels.offsetY + offsetYCorrection - (w.config.xaxis.position === 'top' ? w.globals.xAxisHeight + w.config.xaxis.axisTicks.height - 2 : 0),
@@ -10148,16 +10161,16 @@
                 fontFamily: _this.xaxisFontFamily,
                 foreColor: Array.isArray(_this.xaxisForeColors) ? getCatForeColor() : _this.xaxisForeColors,
                 isPlainText: false,
-                cssClass: 'apexcharts-xaxis-label ' + w.config.xaxis.labels.style.cssClass
+                cssClass: 'apexcharts-xaxis-label apexcharts-xaxis-icon' + w.config.xaxis.labels.style.cssClass
               });
               elXaxisTexts.add(elText);
               elText.node.appendChild(elTooltipTitle);
+            }
 
-              if (label.text !== '') {
-                _this.drawnLabels.push(label.text);
+            if (label.text !== '') {
+              _this.drawnLabels.push(label.text);
 
-                _this.drawnLabelsRects.push(label);
-              }
+              _this.drawnLabelsRects.push(label);
             }
 
             xPos = xPos + colWidth;
@@ -13137,7 +13150,8 @@
 
           if (rect.width * xaxisLabels.length > w.globals.svgWidth - this.dCtx.lgWidthForSideLegends - this.dCtx.yAxisWidth - this.dCtx.gridPad.left - this.dCtx.gridPad.right && w.config.xaxis.labels.rotate !== 0 || w.config.xaxis.labels.rotateAlways) {
             if (!w.globals.isBarHorizontal) {
-              //w.globals.rotateXLabels = true
+              w.globals.rotateXLabels = true;
+
               var getRotatedTextRects = function getRotatedTextRects(text) {
                 return graphics.getTextRects(text, w.config.xaxis.labels.style.fontSize, w.config.xaxis.labels.style.fontFamily, "rotate(".concat(w.config.xaxis.labels.rotate, " 0 0)"), false);
               };
