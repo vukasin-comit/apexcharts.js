@@ -152,7 +152,7 @@ export default class XAxis {
 
         if (label.path.length > 0) {
           let elImage = graphics.drawImage({
-            x: label.x - 16,
+            x: label.x - 14,
             y:
               this.offY +
               w.config.xaxis.labels.offsetY +
@@ -160,9 +160,9 @@ export default class XAxis {
               (w.config.xaxis.position === 'top'
                 ? w.globals.xAxisHeight + w.config.xaxis.axisTicks.height - 2
                 : 0) -
-              16,
-            width: 32,
-            height: 32,
+              14,
+            width: 28,
+            height: 28,
             path: label.path
           })
           elXaxisTexts.add(elImage)
