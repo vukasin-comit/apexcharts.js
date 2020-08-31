@@ -11,12 +11,8 @@ export default class AxesUtils {
   // Based on the formatter function, get the label text and position
   getLabel(labels, timescaleLabels, x, i, drawnLabels = [], fontSize = '12px') {
     const w = this.w
-    let rawLabel = typeof labels[i] === 'undefined' ? '' : labels[i]
-    let imagePath = ''
-    if (rawLabel.startsWith('icon.')) {
-      imagePath = rawLabel.substring(5)
-      rawLabel = 'icon'
-    }
+    let rawLabel = typeof labels[i].text === 'undefined' ? '' : labels[i].text
+    let imagePath = typeof labels[i].path === 'undefined' ? '' : labels[i].path
     let label = rawLabel
 
     let xlbFormatter = w.globals.xLabelFormatter
@@ -29,11 +25,9 @@ export default class AxesUtils {
     label = xFormat.xLabelFormat(xlbFormatter, rawLabel, timestamp)
 
     if (customFormatter !== undefined) {
-      label = customFormatter(rawLabel, labels[i], i)
+      label = customFormatter(rawLabel, labels[i].text, i)
     }
-    if (label.startsWith('icon.')) {
-      label = 'icon'
-    }
+
     const determineHighestUnit = (unit) => {
       let highestUnit = null
       timescaleLabels.forEach((t) => {
@@ -97,8 +91,8 @@ export default class AxesUtils {
     return {
       x,
       text: label,
-      textRect,
       path: imagePath,
+      textRect,
       isBold
     }
   }

@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.42
+ * ApexCharts v1.0.43
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -9564,14 +9564,8 @@
         var drawnLabels = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : [];
         var fontSize = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : '12px';
         var w = this.w;
-        var rawLabel = typeof labels[i] === 'undefined' ? '' : labels[i];
-        var imagePath = '';
-
-        if (rawLabel.startsWith('icon.')) {
-          imagePath = rawLabel.substring(5);
-          rawLabel = 'icon';
-        }
-
+        var rawLabel = typeof labels[i].text === 'undefined' ? '' : labels[i].text;
+        var imagePath = typeof labels[i].path === 'undefined' ? '' : labels[i].path;
         var label = rawLabel;
         var xlbFormatter = w.globals.xLabelFormatter;
         var customFormatter = w.config.xaxis.labels.formatter;
@@ -9581,11 +9575,7 @@
         label = xFormat.xLabelFormat(xlbFormatter, rawLabel, timestamp);
 
         if (customFormatter !== undefined) {
-          label = customFormatter(rawLabel, labels[i], i);
-        }
-
-        if (label.startsWith('icon.')) {
-          label = 'icon';
+          label = customFormatter(rawLabel, labels[i].text, i);
         }
 
         var determineHighestUnit = function determineHighestUnit(unit) {
@@ -9634,8 +9624,8 @@
         return {
           x: x,
           text: label,
-          textRect: textRect,
           path: imagePath,
+          textRect: textRect,
           isBold: isBold
         };
       }
@@ -10091,7 +10081,19 @@
         var labels = [];
 
         for (var i = 0; i < this.xaxisLabels.length; i++) {
-          labels.push(this.xaxisLabels[i]);
+          var text = this.xaxisLabels[i];
+          var path = '';
+
+          if (this.xaxisLabels[i].startsWith('icon.')) {
+            path = this.xaxisLabels[i].substring(5);
+            text = 'icon';
+          }
+
+          var l = {
+            text: text,
+            path: path
+          };
+          labels.push(l);
         }
 
         var labelsLen = labels.length;

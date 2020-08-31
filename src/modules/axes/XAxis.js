@@ -77,7 +77,15 @@ export default class XAxis {
     let labels = []
 
     for (let i = 0; i < this.xaxisLabels.length; i++) {
-      labels.push(this.xaxisLabels[i])
+      let text = this.xaxisLabels[i]
+      let path = ''
+      if (this.xaxisLabels[i].startsWith('icon.')) {
+        path = this.xaxisLabels[i].substring(5)
+        text = 'icon'
+      }
+      let l = { text, path }
+
+      labels.push(l)
     }
 
     let labelsLen = labels.length
@@ -176,6 +184,7 @@ export default class XAxis {
           elXaxisTexts.add(elText)
           elText.node.appendChild(elTooltipTitle)
         }
+
         if (label.text !== '') {
           this.drawnLabels.push(label.text)
           this.drawnLabelsRects.push(label)
