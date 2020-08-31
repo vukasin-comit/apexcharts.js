@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.45
+ * ApexCharts v1.0.46
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -9564,8 +9564,12 @@
         var drawnLabels = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : [];
         var fontSize = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : '12px';
         var w = this.w;
-        var rawLabel = typeof labels[i].text === 'undefined' ? '' : labels[i].text;
-        var imagePath = typeof labels[i].path === 'undefined' ? '' : labels[i].path;
+        var rawLabel = typeof labels[i] === 'undefined' ? '' : labels[i];
+
+        if (rawLabel.startsWith('icon.')) {
+          rawLabel = 'icon';
+        }
+
         var label = rawLabel;
         var xlbFormatter = w.globals.xLabelFormatter;
         var customFormatter = w.config.xaxis.labels.formatter;
@@ -9575,7 +9579,7 @@
         label = xFormat.xLabelFormat(xlbFormatter, rawLabel, timestamp);
 
         if (customFormatter !== undefined) {
-          label = customFormatter(rawLabel, labels[i].text, i);
+          label = customFormatter(rawLabel, label, i);
         }
 
         var determineHighestUnit = function determineHighestUnit(unit) {
@@ -9624,7 +9628,6 @@
         return {
           x: x,
           text: label,
-          path: imagePath,
           textRect: textRect,
           isBold: isBold
         };
@@ -10082,19 +10085,7 @@
         var labels = [];
 
         for (var i = 0; i < this.xaxisLabels.length; i++) {
-          var text = this.xaxisLabels[i] + '';
-          var path = '';
-
-          if (text.startsWith('icon.')) {
-            path = text.substring(5);
-            text = 'icon';
-          }
-
-          var l = {
-            text: text,
-            path: path
-          };
-          labels.push(l);
+          labels.push(this.xaxisLabels[i]);
         }
 
         var labelsLen = labels.length;
@@ -10111,6 +10102,12 @@
         if (w.config.xaxis.labels.show) {
           var _loop = function _loop(_i) {
             var x = xPos - colWidth / 2 + w.config.xaxis.labels.offsetX;
+            var imgPath = '';
+            var l = labels[_i];
+
+            if (l.startsWith('icon.')) {
+              imgPath = l.substring(5);
+            }
 
             if (_i === 0 && labelsLen === 1 && colWidth / 2 === xPos && w.globals.dataPoints === 1) {
               // single datapoint
@@ -10121,10 +10118,6 @@
 
             var offsetYCorrection = 28;
 
-            if (w.globals.rotateXLabels) {
-              offsetYCorrection = 22;
-            }
-
             var getCatForeColor = function getCatForeColor() {
               return w.config.xaxis.convertedCatToNumeric ? _this.xaxisForeColors[w.globals.minX + _i - 1] : _this.xaxisForeColors[_i];
             };
@@ -10133,19 +10126,18 @@
               w.globals.xaxisLabelsCount++;
             }
 
-            var elTooltipTitle = document.createElementNS(w.globals.SVGNS, 'title');
-            elTooltipTitle.textContent = Array.isArray(label.text) ? label.text.join(' ') : label.text;
-
-            if (label.path) {
+            if (imgPath.length > 1) {
               var elImage = graphics.drawImage({
                 x: label.x - 16,
                 y: _this.offY + w.config.xaxis.labels.offsetY + offsetYCorrection - (w.config.xaxis.position === 'top' ? w.globals.xAxisHeight + w.config.xaxis.axisTicks.height - 2 : 0) - 16,
                 width: 32,
                 height: 32,
-                path: label.path
+                path: imgPath
               });
               elXaxisTexts.add(elImage);
             } else {
+              var elTooltipTitle = document.createElementNS(w.globals.SVGNS, 'title');
+              elTooltipTitle.textContent = Array.isArray(label.text) ? label.text.join(' ') : label.text;
               var elText = graphics.drawText({
                 x: label.x,
                 y: _this.offY + w.config.xaxis.labels.offsetY + offsetYCorrection - (w.config.xaxis.position === 'top' ? w.globals.xAxisHeight + w.config.xaxis.axisTicks.height - 2 : 0),
@@ -10160,12 +10152,12 @@
               });
               elXaxisTexts.add(elText);
               elText.node.appendChild(elTooltipTitle);
-            }
 
-            if (label.text !== '') {
-              _this.drawnLabels.push(label.text);
+              if (label.text !== '') {
+                _this.drawnLabels.push(label.text);
 
-              _this.drawnLabelsRects.push(label);
+                _this.drawnLabelsRects.push(label);
+              }
             }
 
             xPos = xPos + colWidth;

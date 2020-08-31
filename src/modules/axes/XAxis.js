@@ -77,15 +77,7 @@ export default class XAxis {
     let labels = []
 
     for (let i = 0; i < this.xaxisLabels.length; i++) {
-      let text = this.xaxisLabels[i] + ''
-      let path = ''
-      if (text.startsWith('icon.')) {
-        path = text.substring(5)
-        text = 'icon'
-      }
-      let l = { text, path }
-
-      labels.push(l)
+      labels.push(this.xaxisLabels[i])
     }
 
     let labelsLen = labels.length
@@ -102,7 +94,11 @@ export default class XAxis {
     if (w.config.xaxis.labels.show) {
       for (let i = 0; i <= labelsLen - 1; i++) {
         let x = xPos - colWidth / 2 + w.config.xaxis.labels.offsetX
-
+        let imgPath = ''
+        let l = labels[i]
+        if (l.startsWith('icon.')) {
+          imgPath = l.substring(5)
+        }
         if (
           i === 0 &&
           labelsLen === 1 &&
@@ -122,9 +118,6 @@ export default class XAxis {
         )
 
         let offsetYCorrection = 28
-        if (w.globals.rotateXLabels) {
-          offsetYCorrection = 22
-        }
 
         const getCatForeColor = () => {
           return w.config.xaxis.convertedCatToNumeric
@@ -136,12 +129,7 @@ export default class XAxis {
           w.globals.xaxisLabelsCount++
         }
 
-        let elTooltipTitle = document.createElementNS(w.globals.SVGNS, 'title')
-        elTooltipTitle.textContent = Array.isArray(label.text)
-          ? label.text.join(' ')
-          : label.text
-
-        if (label.path) {
+        if (imgPath.length > 1) {
           let elImage = graphics.drawImage({
             x: label.x - 16,
             y:
@@ -154,10 +142,18 @@ export default class XAxis {
               16,
             width: 32,
             height: 32,
-            path: label.path
+            path: imgPath
           })
           elXaxisTexts.add(elImage)
         } else {
+          let elTooltipTitle = document.createElementNS(
+            w.globals.SVGNS,
+            'title'
+          )
+          elTooltipTitle.textContent = Array.isArray(label.text)
+            ? label.text.join(' ')
+            : label.text
+
           let elText = graphics.drawText({
             x: label.x,
             y:
@@ -183,12 +179,12 @@ export default class XAxis {
           })
           elXaxisTexts.add(elText)
           elText.node.appendChild(elTooltipTitle)
+          if (label.text !== '') {
+            this.drawnLabels.push(label.text)
+            this.drawnLabelsRects.push(label)
+          }
         }
 
-        if (label.text !== '') {
-          this.drawnLabels.push(label.text)
-          this.drawnLabelsRects.push(label)
-        }
         xPos = xPos + colWidth
       }
     }
