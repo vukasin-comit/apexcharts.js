@@ -118,14 +118,6 @@ export default class XAxis {
           offsetYCorrection = 22
         }
 
-        label = this.axesUtils.checkForOverflowingLabels(
-          i,
-          label,
-          labelsLen,
-          this.drawnLabels,
-          this.drawnLabelsRects
-        )
-
         const getCatForeColor = () => {
           return w.config.xaxis.convertedCatToNumeric
             ? this.xaxisForeColors[w.globals.minX + i - 1]

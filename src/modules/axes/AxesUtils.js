@@ -31,7 +31,9 @@ export default class AxesUtils {
     if (customFormatter !== undefined) {
       label = customFormatter(rawLabel, labels[i], i)
     }
-
+    if (label.startsWith('icon.')) {
+      label = 'icon'
+    }
     const determineHighestUnit = (unit) => {
       let highestUnit = null
       timescaleLabels.forEach((t) => {

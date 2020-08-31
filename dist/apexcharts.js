@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.41
+ * ApexCharts v1.0.42
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -9584,6 +9584,10 @@
           label = customFormatter(rawLabel, labels[i], i);
         }
 
+        if (label.startsWith('icon.')) {
+          label = 'icon';
+        }
+
         var determineHighestUnit = function determineHighestUnit(unit) {
           var highestUnit = null;
           timescaleLabels.forEach(function (t) {
@@ -10117,8 +10121,6 @@
             if (w.globals.rotateXLabels) {
               offsetYCorrection = 22;
             }
-
-            label = _this.axesUtils.checkForOverflowingLabels(_i, label, labelsLen, _this.drawnLabels, _this.drawnLabelsRects);
 
             var getCatForeColor = function getCatForeColor() {
               return w.config.xaxis.convertedCatToNumeric ? _this.xaxisForeColors[w.globals.minX + _i - 1] : _this.xaxisForeColors[_i];
