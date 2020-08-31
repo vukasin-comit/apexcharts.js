@@ -14,7 +14,7 @@ export default class XAxis {
 
     const w = this.w
     this.axesUtils = new AxesUtils(ctx)
-
+    console.log(w.config.xaxis)
     this.xaxisLabels = w.globals.labels.slice()
     if (w.globals.timescaleLabels.length > 0 && !w.globals.isBarHorizontal) {
       //  timeline labels are there and chart is not rangeabr timeline

@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.44
+ * ApexCharts v1.0.45
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -10020,6 +10020,7 @@
       this.w = ctx.w;
       var w = this.w;
       this.axesUtils = new AxesUtils(ctx);
+      console.log(w.config.xaxis);
       this.xaxisLabels = w.globals.labels.slice();
 
       if (w.globals.timescaleLabels.length > 0 && !w.globals.isBarHorizontal) {
