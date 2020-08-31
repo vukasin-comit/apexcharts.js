@@ -77,10 +77,10 @@ export default class XAxis {
     let labels = []
 
     for (let i = 0; i < this.xaxisLabels.length; i++) {
-      let text = this.xaxisLabels[i]
+      let text = this.xaxisLabels[i] + ''
       let path = ''
-      if (this.xaxisLabels[i].startsWith('icon.')) {
-        path = this.xaxisLabels[i].substring(5)
+      if (text.startsWith('icon.')) {
+        path = text.substring(5)
         text = 'icon'
       }
       let l = { text, path }

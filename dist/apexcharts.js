@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.43
+ * ApexCharts v1.0.44
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -10081,11 +10081,11 @@
         var labels = [];
 
         for (var i = 0; i < this.xaxisLabels.length; i++) {
-          var text = this.xaxisLabels[i];
+          var text = this.xaxisLabels[i] + '';
           var path = '';
 
-          if (this.xaxisLabels[i].startsWith('icon.')) {
-            path = this.xaxisLabels[i].substring(5);
+          if (text.startsWith('icon.')) {
+            path = text.substring(5);
             text = 'icon';
           }
 
