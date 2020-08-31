@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.51
+ * ApexCharts v1.0.52
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -10143,10 +10143,10 @@
 
             if (label.path.length > 0) {
               var elImage = graphics.drawImage({
-                x: label.x - 14,
-                y: _this.offY + w.config.xaxis.labels.offsetY + offsetYCorrection - (w.config.xaxis.position === 'top' ? w.globals.xAxisHeight + w.config.xaxis.axisTicks.height - 2 : 0) - 14,
-                width: 28,
-                height: 28,
+                x: label.x - 13,
+                y: _this.offY + w.config.xaxis.labels.offsetY + offsetYCorrection - (w.config.xaxis.position === 'top' ? w.globals.xAxisHeight + w.config.xaxis.axisTicks.height - 2 : 0) - 13,
+                width: 26,
+                height: 26,
                 path: label.path
               });
               elXaxisTexts.add(elImage);
