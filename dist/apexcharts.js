@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.6
+ * ApexCharts v1.0.61
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -19405,14 +19405,14 @@
                 foreColor: foreColor
               });
               var elPieSubLabel = graphics.drawText({
-                x: xPos - 17,
+                x: xPos,
                 y: yPos + 15,
-                text: w.config.dataLabels.subLabel,
-                textAnchor: 'left',
-                fontSize: w.config.dataLabels.style.fontSize,
-                fontFamily: w.config.dataLabels.style.fontFamily,
-                fontWeight: w.config.dataLabels.style.fontWeight,
-                foreColor: '#222'
+                text: w.config.dataLabels.subLabel.text,
+                textAnchor: 'middle',
+                fontSize: w.config.dataLabels.subLabel.fontSize,
+                fontFamily: w.config.dataLabels.subLabel.fontFamily,
+                fontWeight: w.config.dataLabels.subLabel.fontWeight,
+                foreColor: w.config.dataLabels.subLabel.color
               });
               elPieLabelWrap.add(elPieLabel);
               elPieLabelWrap.add(elPieSubLabel);
