@@ -364,14 +364,28 @@ class Pie {
             fontWeight: w.config.dataLabels.style.fontWeight,
             foreColor
           })
+          let elPieSubLabel = graphics.drawText({
+            x: xPos,
+            y: yPos + 50,
+            text: w.globals.dataLabels.subLabel,
+            textAnchor: 'middle',
+            fontSize: w.config.dataLabels.style.fontSize,
+            fontFamily: w.config.dataLabels.style.fontFamily,
+            fontWeight: w.config.dataLabels.style.fontWeight,
+            foreColor: '#222'
+          })
 
           elPieLabelWrap.add(elPieLabel)
+          elPieLabelWrap.add(elPieSubLabel)
+
           if (w.config.dataLabels.dropShadow.enabled) {
             const textShadow = w.config.dataLabels.dropShadow
             filters.dropShadow(elPieLabel, textShadow)
           }
 
           elPieLabel.node.classList.add('apexcharts-pie-label')
+          elPieSubLabel.node.classList.add('apexcharts-pie-label')
+
           if (
             w.config.chart.animations.animate &&
             w.globals.resized === false
