@@ -365,10 +365,10 @@ class Pie {
             foreColor
           })
           let elPieSubLabel = graphics.drawText({
-            x: xPos,
-            y: yPos + 50,
-            text: w.globals.dataLabels.subLabel,
-            textAnchor: 'middle',
+            x: xPos - 17,
+            y: yPos + 15,
+            text: w.config.dataLabels.subLabel,
+            textAnchor: 'left',
             fontSize: w.config.dataLabels.style.fontSize,
             fontFamily: w.config.dataLabels.style.fontFamily,
             fontWeight: w.config.dataLabels.style.fontWeight,
