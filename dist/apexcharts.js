@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.1.7
+ * ApexCharts v1.1.8
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -22642,8 +22642,8 @@
         gl.dom.Paper.node.parentNode.parentNode.style.minHeight = newHeight + 'px';
       }
       /*
-       ** All the calculations for setting range in charts will be done here
-       */
+        ** All the calculations for setting range in charts will be done here
+        */
 
     }, {
       key: "coreCalculations",
