@@ -86,7 +86,7 @@ export default class YAxis {
         }
 
         let label = graphics.drawText({
-          x: xPad,
+          x: 0,
           y: l + tickAmount / 10 + w.config.yaxis[realIndex].labels.offsetY + 1,
           text: val,
           textAnchor: w.config.yaxis[realIndex].opposite ? 'start' : 'end',
@@ -100,7 +100,7 @@ export default class YAxis {
         let bgWidth = label.bbox().width + 10
         let bgHeight = label.bbox().height + 4
         let labelBackground = graphics.drawRect(
-          -bgWidth / 2 + 5,
+          -label.bbox().width,
           l +
             tickAmount / 10 +
             w.config.yaxis[realIndex].labels.offsetY +
