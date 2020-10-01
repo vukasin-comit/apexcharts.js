@@ -97,16 +97,17 @@ export default class YAxis {
           isPlainText: false,
           cssClass: 'apexcharts-yaxis-label ' + yaxisStyle.cssClass
         })
+        let bgWidth = label.bbox().width + 10
+        let bgHeight = label.bbox().height + 4
         let labelBackground = graphics.drawRect(
-          -label.bbox().width / 2 + 3,
+          -bgWidth / 2 + label.bbox().width,
           l +
             tickAmount / 10 +
             w.config.yaxis[realIndex].labels.offsetY +
             1 -
-            label.bbox().height +
-            1.5,
-          label.bbox().width,
-          label.bbox().height,
+            label.bbox().height,
+          bgWidth,
+          bgHeight,
           4,
           '#ff0000',
           0.5
