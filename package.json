@@ -1,6 +1,6 @@
 {
 	"name": "@29aries/apexcharts",
-	"version": "1.0.62",
+	"version": "1.0.7",
 	"description": "Interactive JavaScript Charts built on SVG  - forked by 29aries to allow custom labels - forked from 3.20.0",
 	"repository": {
 		"type": "git",
@@ -31,7 +31,7 @@
 		"e2e": "node tests/e2e/samples.js test",
 		"e2e:update": "node tests/e2e/samples.js update",
 		"build:samples": "node samples/source/index.js generate",
-		"update": "yarn build && git add . && git commit -m 'update' && git push && npm publish" 
+		"update": "yarn build && git add . && git commit -m 'update' && git push && npm publish"
 	},
 	"dependencies": {
 		"svg.draggable.js": "^2.2.2",
