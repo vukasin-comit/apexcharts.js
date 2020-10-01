@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.1.8
+ * ApexCharts v1.1.9
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -11963,7 +11963,7 @@
         var firstLabel = '';
 
         if (w.config.yaxis[realIndex].labels.show) {
-          var _loop = function _loop(i) {
+          for (var i = tickAmount; i >= 0; i--) {
             var val = labels[i];
             val = lbFormatter(val, i);
             var xPad = w.config.yaxis[realIndex].labels.padding;
@@ -11971,10 +11971,6 @@
             if (w.config.yaxis[realIndex].opposite && w.config.yaxis.length !== 0) {
               xPad = xPad * -1;
             }
-
-            var getForeColor = function getForeColor() {
-              return Array.isArray(yaxisStyle.colors) ? yaxisStyle.colors[i] : yaxisStyle.colors;
-            };
 
             var label = graphics.drawText({
               x: 0,
@@ -11984,7 +11980,7 @@
               fontSize: yaxisFontSize,
               fontFamily: yaxisFontFamily,
               fontWeight: yaxisFontWeight,
-              foreColor: getForeColor(),
+              foreColor: yaxisStyle.colors,
               isPlainText: false,
               cssClass: 'apexcharts-yaxis-label ' + yaxisStyle.cssClass
             });
@@ -12009,10 +12005,6 @@
             }
 
             l = l + labelsDivider;
-          };
-
-          for (var i = tickAmount; i >= 0; i--) {
-            _loop(i);
           }
         }
 
@@ -22642,8 +22634,8 @@
         gl.dom.Paper.node.parentNode.parentNode.style.minHeight = newHeight + 'px';
       }
       /*
-        ** All the calculations for setting range in charts will be done here
-        */
+       ** All the calculations for setting range in charts will be done here
+       */
 
     }, {
       key: "coreCalculations",
