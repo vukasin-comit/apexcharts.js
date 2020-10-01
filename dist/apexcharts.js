@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.1.2
+ * ApexCharts v1.1.3
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -11988,7 +11988,7 @@
               isPlainText: false,
               cssClass: 'apexcharts-yaxis-label ' + yaxisStyle.cssClass
             });
-            var labelBackground = graphics.drawRect(xPad, l + tickAmount / 10 + w.config.yaxis[realIndex].labels.offsetY + 1, label.bbox().width, label.bbox().height, 0, '#ff0000');
+            var labelBackground = graphics.drawRect(-label.bbox().width / 2 + 3, l + tickAmount / 10 + w.config.yaxis[realIndex].labels.offsetY + 1 - label.bbox().height + 1.5, label.bbox().width, label.bbox().height, 4, '#ff0000', 0.5);
 
             if (i === tickAmount) {
               firstLabel = label;

@@ -98,12 +98,18 @@ export default class YAxis {
           cssClass: 'apexcharts-yaxis-label ' + yaxisStyle.cssClass
         })
         let labelBackground = graphics.drawRect(
-          xPad,
-          l + tickAmount / 10 + w.config.yaxis[realIndex].labels.offsetY + 1,
+          -label.bbox().width / 2 + 3,
+          l +
+            tickAmount / 10 +
+            w.config.yaxis[realIndex].labels.offsetY +
+            1 -
+            label.bbox().height +
+            1.5,
           label.bbox().width,
           label.bbox().height,
-          0,
-          '#ff0000'
+          4,
+          '#ff0000',
+          0.5
         )
         if (i === tickAmount) {
           firstLabel = label
