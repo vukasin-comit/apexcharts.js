@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.8
+ * ApexCharts v1.0.10
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -11941,7 +11941,7 @@
         var elYaxis = graphics.group({
           class: 'apexcharts-yaxis',
           rel: realIndex,
-          transform: 'translate(' + w.globals.translateYAxisX[realIndex] + ', 0)'
+          transform: 'translate(100, 0)'
         });
 
         if (this.axesUtils.isYAxisHidden(realIndex)) {
@@ -11988,11 +11988,13 @@
               isPlainText: false,
               cssClass: 'apexcharts-yaxis-label ' + yaxisStyle.cssClass
             });
+            var labelBackground = graphics.drawRect(xPad, l + tickAmount / 10 + w.config.yaxis[realIndex].labels.offsetY + 1, 100, 50, 0, '#ff0000');
 
             if (i === tickAmount) {
               firstLabel = label;
             }
 
+            elYaxisTexts.add(labelBackground);
             elYaxisTexts.add(label);
 
             if (w.config.yaxis[realIndex].labels.rotate !== 0) {
