@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.1.4
+ * ApexCharts v1.1.5
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -11990,7 +11990,7 @@
             });
             var bgWidth = label.bbox().width + 10;
             var bgHeight = label.bbox().height + 4;
-            var labelBackground = graphics.drawRect(-bgWidth / 2 + label.bbox().width, l + tickAmount / 10 + w.config.yaxis[realIndex].labels.offsetY + 1 - label.bbox().height, bgWidth, bgHeight, 4, '#ff0000', 0.5);
+            var labelBackground = graphics.drawRect(-bgWidth / 2 + 5, l + tickAmount / 10 + w.config.yaxis[realIndex].labels.offsetY + 1 - label.bbox().height, bgWidth, bgHeight, 4, '#ff0000', 0.5);
 
             if (i === tickAmount) {
               firstLabel = label;

@@ -100,7 +100,7 @@ export default class YAxis {
         let bgWidth = label.bbox().width + 10
         let bgHeight = label.bbox().height + 4
         let labelBackground = graphics.drawRect(
-          -bgWidth / 2 + label.bbox().width,
+          -bgWidth / 2 + 5,
           l +
             tickAmount / 10 +
             w.config.yaxis[realIndex].labels.offsetY +
