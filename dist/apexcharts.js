@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.1.1
+ * ApexCharts v1.1.2
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -11988,7 +11988,7 @@
               isPlainText: false,
               cssClass: 'apexcharts-yaxis-label ' + yaxisStyle.cssClass
             });
-            var labelBackground = graphics.drawRect(xPad, l + tickAmount / 10 + w.config.yaxis[realIndex].labels.offsetY + 1, label.width, label.height, 0, '#ff0000');
+            var labelBackground = graphics.drawRect(xPad, l + tickAmount / 10 + w.config.yaxis[realIndex].labels.offsetY + 1, label.bbox().width, label.bbox().height, 0, '#ff0000');
 
             if (i === tickAmount) {
               firstLabel = label;
@@ -22637,8 +22637,8 @@
         gl.dom.Paper.node.parentNode.parentNode.style.minHeight = newHeight + 'px';
       }
       /*
-        ** All the calculations for setting range in charts will be done here
-        */
+       ** All the calculations for setting range in charts will be done here
+       */
 
     }, {
       key: "coreCalculations",

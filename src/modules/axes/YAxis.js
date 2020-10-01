@@ -100,8 +100,8 @@ export default class YAxis {
         let labelBackground = graphics.drawRect(
           xPad,
           l + tickAmount / 10 + w.config.yaxis[realIndex].labels.offsetY + 1,
-          label.width,
-          label.height,
+          label.bbox().width,
+          label.bbox().height,
           0,
           '#ff0000'
         )
