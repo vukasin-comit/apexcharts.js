@@ -41,7 +41,7 @@ export default class YAxis {
     let elYaxis = graphics.group({
       class: 'apexcharts-yaxis',
       rel: realIndex,
-      transform: 'translate(100, 0)'
+      transform: 'translate(50, 0)'
     })
 
     if (this.axesUtils.isYAxisHidden(realIndex)) {
@@ -100,8 +100,8 @@ export default class YAxis {
         let labelBackground = graphics.drawRect(
           xPad,
           l + tickAmount / 10 + w.config.yaxis[realIndex].labels.offsetY + 1,
-          100,
-          50,
+          label.width,
+          label.height,
           0,
           '#ff0000'
         )

@@ -344,7 +344,7 @@ export default class Core {
     let tX = gl.translateX
 
     let scalingAttrs = {
-      transform: 'translate(' + tX + ', ' + tY + ')'
+      transform: 'translate(0, ' + tY + ')'
     }
     Graphics.setAttrs(gl.dom.elGraphical.node, scalingAttrs)
   }

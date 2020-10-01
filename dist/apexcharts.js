@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.10
+ * ApexCharts v1.1.1
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -11941,7 +11941,7 @@
         var elYaxis = graphics.group({
           class: 'apexcharts-yaxis',
           rel: realIndex,
-          transform: 'translate(100, 0)'
+          transform: 'translate(50, 0)'
         });
 
         if (this.axesUtils.isYAxisHidden(realIndex)) {
@@ -11988,7 +11988,7 @@
               isPlainText: false,
               cssClass: 'apexcharts-yaxis-label ' + yaxisStyle.cssClass
             });
-            var labelBackground = graphics.drawRect(xPad, l + tickAmount / 10 + w.config.yaxis[realIndex].labels.offsetY + 1, 100, 50, 0, '#ff0000');
+            var labelBackground = graphics.drawRect(xPad, l + tickAmount / 10 + w.config.yaxis[realIndex].labels.offsetY + 1, label.width, label.height, 0, '#ff0000');
 
             if (i === tickAmount) {
               firstLabel = label;
@@ -22596,7 +22596,7 @@
         var tY = gl.translateY;
         var tX = gl.translateX;
         var scalingAttrs = {
-          transform: 'translate(' + tX + ', ' + tY + ')'
+          transform: 'translate(0, ' + tY + ')'
         };
         Graphics.setAttrs(gl.dom.elGraphical.node, scalingAttrs);
       } // To prevent extra spacings in the bottom of the chart, we need to recalculate the height for pie/donut/radialbar charts
@@ -22637,8 +22637,8 @@
         gl.dom.Paper.node.parentNode.parentNode.style.minHeight = newHeight + 'px';
       }
       /*
-       ** All the calculations for setting range in charts will be done here
-       */
+        ** All the calculations for setting range in charts will be done here
+        */
 
     }, {
       key: "coreCalculations",
