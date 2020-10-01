@@ -79,6 +79,12 @@ export default class YAxis {
           xPad = xPad * -1
         }
 
+        const getForeColor = () => {
+          return Array.isArray(yaxisStyle.colors)
+            ? yaxisStyle.colors[i]
+            : yaxisStyle.colors
+        }
+
         let label = graphics.drawText({
           x: 0,
           y: l + tickAmount / 10 + w.config.yaxis[realIndex].labels.offsetY + 1,
@@ -87,7 +93,7 @@ export default class YAxis {
           fontSize: yaxisFontSize,
           fontFamily: yaxisFontFamily,
           fontWeight: yaxisFontWeight,
-          foreColor: '#fff',
+          foreColor: getForeColor(),
           isPlainText: false,
           cssClass: 'apexcharts-yaxis-label ' + yaxisStyle.cssClass
         })

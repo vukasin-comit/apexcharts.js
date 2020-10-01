@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.1.10
+ * ApexCharts v1.1.11
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -11963,7 +11963,7 @@
         var firstLabel = '';
 
         if (w.config.yaxis[realIndex].labels.show) {
-          for (var i = tickAmount; i >= 0; i--) {
+          var _loop = function _loop(i) {
             var val = labels[i];
             val = lbFormatter(val, i);
             var xPad = w.config.yaxis[realIndex].labels.padding;
@@ -11971,6 +11971,10 @@
             if (w.config.yaxis[realIndex].opposite && w.config.yaxis.length !== 0) {
               xPad = xPad * -1;
             }
+
+            var getForeColor = function getForeColor() {
+              return Array.isArray(yaxisStyle.colors) ? yaxisStyle.colors[i] : yaxisStyle.colors;
+            };
 
             var label = graphics.drawText({
               x: 0,
@@ -11980,7 +11984,7 @@
               fontSize: yaxisFontSize,
               fontFamily: yaxisFontFamily,
               fontWeight: yaxisFontWeight,
-              foreColor: '#fff',
+              foreColor: getForeColor(),
               isPlainText: false,
               cssClass: 'apexcharts-yaxis-label ' + yaxisStyle.cssClass
             });
@@ -12005,6 +12009,10 @@
             }
 
             l = l + labelsDivider;
+          };
+
+          for (var i = tickAmount; i >= 0; i--) {
+            _loop(i);
           }
         }
 
