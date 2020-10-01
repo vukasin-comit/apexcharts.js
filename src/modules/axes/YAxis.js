@@ -87,7 +87,7 @@ export default class YAxis {
           fontSize: yaxisFontSize,
           fontFamily: yaxisFontFamily,
           fontWeight: yaxisFontWeight,
-          foreColor: yaxisStyle.colors,
+          foreColor: '#fff',
           isPlainText: false,
           cssClass: 'apexcharts-yaxis-label ' + yaxisStyle.cssClass
         })

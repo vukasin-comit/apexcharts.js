@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.1.9
+ * ApexCharts v1.1.10
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -11980,7 +11980,7 @@
               fontSize: yaxisFontSize,
               fontFamily: yaxisFontFamily,
               fontWeight: yaxisFontWeight,
-              foreColor: yaxisStyle.colors,
+              foreColor: '#fff',
               isPlainText: false,
               cssClass: 'apexcharts-yaxis-label ' + yaxisStyle.cssClass
             });
