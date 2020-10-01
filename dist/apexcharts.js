@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.0.61
+ * ApexCharts v1.0.62
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -11949,7 +11949,7 @@
         }
 
         var elYaxisTexts = graphics.group({
-          class: 'apexcharts-yaxis-texts-g'
+          class: 'apexcharts-yaxis-texts-g test'
         });
         elYaxis.add(elYaxisTexts);
         var tickAmount = w.globals.yAxisScale[realIndex].result.length - 1; // labelsDivider is simply svg height/number of ticks

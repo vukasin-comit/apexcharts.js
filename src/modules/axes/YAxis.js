@@ -49,7 +49,7 @@ export default class YAxis {
     }
 
     let elYaxisTexts = graphics.group({
-      class: 'apexcharts-yaxis-texts-g'
+      class: 'apexcharts-yaxis-texts-g test'
     })
 
     elYaxis.add(elYaxisTexts)
