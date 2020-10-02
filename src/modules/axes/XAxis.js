@@ -235,7 +235,7 @@ export default class XAxis {
       let elHorzLine = graphics.drawLine(
         w.globals.padHorizontal + w.config.xaxis.axisBorder.offsetX - offX,
         this.offY,
-        this.xaxisBorderWidth + offX + w.config.xaxis.axisBorder.myOffset,
+        this.xaxisBorderWidth + offX,
         this.offY,
         w.config.xaxis.axisBorder.color,
         0,

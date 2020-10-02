@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.1.12
+ * ApexCharts v1.1.13
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -10202,7 +10202,7 @@
 
         if (w.config.xaxis.axisBorder.show) {
           var offX = w.globals.barPadForNumericAxis;
-          var elHorzLine = graphics.drawLine(w.globals.padHorizontal + w.config.xaxis.axisBorder.offsetX - offX, this.offY, this.xaxisBorderWidth + offX + w.config.xaxis.axisBorder.myOffset, this.offY, w.config.xaxis.axisBorder.color, 0, this.xaxisBorderHeight);
+          var elHorzLine = graphics.drawLine(w.globals.padHorizontal + w.config.xaxis.axisBorder.offsetX - offX, this.offY, this.xaxisBorderWidth + offX, this.offY, w.config.xaxis.axisBorder.color, 0, this.xaxisBorderHeight);
           elXaxis.add(elHorzLine);
         }
 
@@ -22550,6 +22550,7 @@
         var cnf = this.w.config;
         gl.svgWidth = cnf.chart.width;
         gl.svgHeight = cnf.chart.height;
+        gl.gridWidth = cnf.chart.width;
         var elDim = Utils.getDimensions(this.el);
         var widthUnit = cnf.chart.width.toString().split(/[0-9]+/g).pop();
 
@@ -22642,8 +22643,8 @@
         gl.dom.Paper.node.parentNode.parentNode.style.minHeight = newHeight + 'px';
       }
       /*
-       ** All the calculations for setting range in charts will be done here
-       */
+        ** All the calculations for setting range in charts will be done here
+        */
 
     }, {
       key: "coreCalculations",
