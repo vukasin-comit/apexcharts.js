@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.1.11
+ * ApexCharts v1.1.12
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -10202,7 +10202,7 @@
 
         if (w.config.xaxis.axisBorder.show) {
           var offX = w.globals.barPadForNumericAxis;
-          var elHorzLine = graphics.drawLine(w.globals.padHorizontal + w.config.xaxis.axisBorder.offsetX - offX, this.offY, this.xaxisBorderWidth + offX, this.offY, w.config.xaxis.axisBorder.color, 0, this.xaxisBorderHeight);
+          var elHorzLine = graphics.drawLine(w.globals.padHorizontal + w.config.xaxis.axisBorder.offsetX - offX, this.offY, this.xaxisBorderWidth + offX + w.config.xaxis.axisBorder.myOffset, this.offY, w.config.xaxis.axisBorder.color, 0, this.xaxisBorderHeight);
           elXaxis.add(elHorzLine);
         }
 
