@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.1.13
+ * ApexCharts v1.1.14
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -13633,9 +13633,9 @@
       this.xPadLeft = 0;
     }
     /**
-     * @memberof Dimensions
-     * @param {object} w - chart context
-     **/
+      * @memberof Dimensions
+      * @param {object} w - chart context
+      **/
 
 
     _createClass(Dimensions, [{
@@ -13656,9 +13656,8 @@
         this.dimGrid.gridPadFortitleSubtitle(); // after calculating everything, apply padding set by user
 
         gl.gridHeight = gl.gridHeight - this.gridPad.top - this.gridPad.bottom;
-        gl.gridWidth = gl.gridWidth - this.gridPad.left - this.gridPad.right - this.xPadRight - this.xPadLeft;
+        gl.gridWidth = gl.gridWidth;
         var barWidth = this.dimGrid.gridPadForColumnsInNumericAxis(gl.gridWidth);
-        gl.gridWidth = gl.gridWidth - barWidth * 2;
         gl.translateX = gl.translateX + this.gridPad.left + this.xPadLeft + (barWidth > 0 ? barWidth + 4 : 0);
         gl.translateY = gl.translateY + this.gridPad.top;
       }
@@ -13725,7 +13724,7 @@
         var legendTopBottom = function legendTopBottom() {
           gl.translateX = yAxisWidth;
           gl.gridHeight = gl.svgHeight - _this.lgRect.height - xAxisHeight - (!_this.isSparkline ? w.globals.rotateXLabels ? 10 : 15 : 0);
-          gl.gridWidth = gl.svgWidth - yAxisWidth;
+          gl.gridWidth = gl.svgWidth;
         };
 
         if (w.config.xaxis.position === 'top') translateY = gl.xAxisHeight - w.config.xaxis.axisTicks.height - 5;
@@ -13745,14 +13744,14 @@
             gl.translateY = translateY;
             gl.translateX = this.lgRect.width + yAxisWidth;
             gl.gridHeight = gl.svgHeight - xAxisHeight - 12;
-            gl.gridWidth = gl.svgWidth - this.lgRect.width - yAxisWidth;
+            gl.gridWidth = gl.svgWidth;
             break;
 
           case 'right':
             gl.translateY = translateY;
             gl.translateX = yAxisWidth;
             gl.gridHeight = gl.svgHeight - xAxisHeight - 12;
-            gl.gridWidth = gl.svgWidth - this.lgRect.width - yAxisWidth - 5;
+            gl.gridWidth = gl.svgWidth;
             break;
 
           default:
@@ -13804,14 +13803,14 @@
             break;
 
           case 'left':
-            gl.gridWidth = gl.svgWidth - this.lgRect.width - xPad;
+            gl.gridWidth = gl.svgWidth;
             gl.gridHeight = cnf.chart.height !== 'auto' ? gl.svgHeight : gl.gridWidth;
             gl.translateY = offY;
             gl.translateX = offX + this.lgRect.width + xPad;
             break;
 
           case 'right':
-            gl.gridWidth = gl.svgWidth - this.lgRect.width - xPad - 5;
+            gl.gridWidth = gl.svgWidth;
             gl.gridHeight = cnf.chart.height !== 'auto' ? gl.svgHeight : gl.gridWidth;
             gl.translateY = offY;
             gl.translateX = offX + 10;
@@ -22550,7 +22549,6 @@
         var cnf = this.w.config;
         gl.svgWidth = cnf.chart.width;
         gl.svgHeight = cnf.chart.height;
-        gl.gridWidth = cnf.chart.width;
         var elDim = Utils.getDimensions(this.el);
         var widthUnit = cnf.chart.width.toString().split(/[0-9]+/g).pop();
 

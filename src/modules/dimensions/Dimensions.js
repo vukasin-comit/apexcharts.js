@@ -54,16 +54,9 @@ export default class Dimensions {
     // after calculating everything, apply padding set by user
     gl.gridHeight = gl.gridHeight - this.gridPad.top - this.gridPad.bottom
 
-    gl.gridWidth =
-      gl.gridWidth -
-      this.gridPad.left -
-      this.gridPad.right -
-      this.xPadRight -
-      this.xPadLeft
+    gl.gridWidth = gl.gridWidth
 
     let barWidth = this.dimGrid.gridPadForColumnsInNumericAxis(gl.gridWidth)
-
-    gl.gridWidth = gl.gridWidth - barWidth * 2
 
     gl.translateX =
       gl.translateX +
@@ -149,7 +142,7 @@ export default class Dimensions {
         this.lgRect.height -
         xAxisHeight -
         (!this.isSparkline ? (w.globals.rotateXLabels ? 10 : 15) : 0)
-      gl.gridWidth = gl.svgWidth - yAxisWidth
+      gl.gridWidth = gl.svgWidth
     }
 
     if (w.config.xaxis.position === 'top')
@@ -168,13 +161,13 @@ export default class Dimensions {
         gl.translateY = translateY
         gl.translateX = this.lgRect.width + yAxisWidth
         gl.gridHeight = gl.svgHeight - xAxisHeight - 12
-        gl.gridWidth = gl.svgWidth - this.lgRect.width - yAxisWidth
+        gl.gridWidth = gl.svgWidth
         break
       case 'right':
         gl.translateY = translateY
         gl.translateX = yAxisWidth
         gl.gridHeight = gl.svgHeight - xAxisHeight - 12
-        gl.gridWidth = gl.svgWidth - this.lgRect.width - yAxisWidth - 5
+        gl.gridWidth = gl.svgWidth
         break
       default:
         throw new Error('Legend position not supported')
@@ -232,14 +225,14 @@ export default class Dimensions {
         gl.translateX = offX + (gl.svgWidth - gl.gridWidth) / 2
         break
       case 'left':
-        gl.gridWidth = gl.svgWidth - this.lgRect.width - xPad
+        gl.gridWidth = gl.svgWidth
         gl.gridHeight =
           cnf.chart.height !== 'auto' ? gl.svgHeight : gl.gridWidth
         gl.translateY = offY
         gl.translateX = offX + this.lgRect.width + xPad
         break
       case 'right':
-        gl.gridWidth = gl.svgWidth - this.lgRect.width - xPad - 5
+        gl.gridWidth = gl.svgWidth
         gl.gridHeight =
           cnf.chart.height !== 'auto' ? gl.svgHeight : gl.gridWidth
         gl.translateY = offY

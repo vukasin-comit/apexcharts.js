@@ -277,8 +277,6 @@ export default class Core {
     gl.svgWidth = cnf.chart.width
     gl.svgHeight = cnf.chart.height
 
-    gl.gridWidth = cnf.chart.width
-
     let elDim = Utils.getDimensions(this.el)
 
     let widthUnit = cnf.chart.width
