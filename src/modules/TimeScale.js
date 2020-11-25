@@ -719,6 +719,7 @@ class TimeScale {
 
       if (w.config.xaxis.labels.format === undefined) {
         let customFormat = 'dd MMM'
+        let customSufix = ''
         const dtFormatter = w.config.xaxis.labels.datetimeFormatter
         if (ts.unit === 'year') customFormat = dtFormatter.year
         if (ts.unit === 'month') customFormat = dtFormatter.month
@@ -726,7 +727,14 @@ class TimeScale {
         if (ts.unit === 'hour') customFormat = dtFormatter.hour
         if (ts.unit === 'minute') customFormat = dtFormatter.minute
 
-        value = dt.formatDate(dateToFormat, customFormat)
+        const dtSufix = w.config.xaxis.labels.datetimeSufix
+        if (ts.unit === 'year') customSufix = dtSufix.year
+        if (ts.unit === 'month') customSufix = dtSufix.month
+        if (ts.unit === 'day') customSufix = dtSufix.day
+        if (ts.unit === 'hour') customSufix = dtSufix.hour
+        if (ts.unit === 'minute') customSufix = dtSufix.minute
+
+        value = dt.formatDate(dateToFormat, customFormat) + customSufix
       } else {
         value = dt.formatDate(dateToFormat, w.config.xaxis.labels.format)
       }
