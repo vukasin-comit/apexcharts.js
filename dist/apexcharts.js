@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.1.14
+ * ApexCharts v1.1.16
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -13633,9 +13633,9 @@
       this.xPadLeft = 0;
     }
     /**
-      * @memberof Dimensions
-      * @param {object} w - chart context
-      **/
+     * @memberof Dimensions
+     * @param {object} w - chart context
+     **/
 
 
     _createClass(Dimensions, [{
@@ -22241,13 +22241,20 @@
 
           if (w.config.xaxis.labels.format === undefined) {
             var customFormat = 'dd MMM';
+            var customSufix = '';
             var dtFormatter = w.config.xaxis.labels.datetimeFormatter;
             if (ts.unit === 'year') customFormat = dtFormatter.year;
             if (ts.unit === 'month') customFormat = dtFormatter.month;
             if (ts.unit === 'day') customFormat = dtFormatter.day;
             if (ts.unit === 'hour') customFormat = dtFormatter.hour;
             if (ts.unit === 'minute') customFormat = dtFormatter.minute;
-            value = dt.formatDate(dateToFormat, customFormat);
+            var dtSufix = w.config.xaxis.labels.datetimeSufix;
+            if (ts.unit === 'year') customSufix = dtSufix.year;
+            if (ts.unit === 'month') customSufix = dtSufix.month;
+            if (ts.unit === 'day') customSufix = dtSufix.day;
+            if (ts.unit === 'hour') customSufix = dtSufix.hour;
+            if (ts.unit === 'minute') customSufix = dtSufix.minute;
+            value = dt.formatDate(dateToFormat, customFormat) + customSufix;
           } else {
             value = dt.formatDate(dateToFormat, w.config.xaxis.labels.format);
           }
@@ -22641,8 +22648,8 @@
         gl.dom.Paper.node.parentNode.parentNode.style.minHeight = newHeight + 'px';
       }
       /*
-        ** All the calculations for setting range in charts will be done here
-        */
+       ** All the calculations for setting range in charts will be done here
+       */
 
     }, {
       key: "coreCalculations",
