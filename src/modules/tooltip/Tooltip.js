@@ -42,6 +42,7 @@ export default class Tooltip {
   }
 
   getElXCrosshairs() {
+    console.log('getelxcrosshairs')
     return this.w.globals.dom.baseEl.querySelector('.apexcharts-xcrosshairs')
   }
 
@@ -514,6 +515,7 @@ export default class Tooltip {
       e.type === 'mouseup'
     ) {
       if (xcrosshairs !== null) {
+        console.log('mousemove touchmove moouseup ' + e.type)
         xcrosshairs.classList.add('apexcharts-active')
       }
 
@@ -666,6 +668,7 @@ export default class Tooltip {
 
   handleMouseOut(opt) {
     const w = this.w
+    console.log('handle mouse out')
 
     const xcrosshairs = this.getElXCrosshairs()
 

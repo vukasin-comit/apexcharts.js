@@ -17373,6 +17373,7 @@
     }, {
       key: "getElXCrosshairs",
       value: function getElXCrosshairs() {
+        console.log('getelxcrosshairs');
         return this.w.globals.dom.baseEl.querySelector('.apexcharts-xcrosshairs');
       }
     }, {
@@ -17768,6 +17769,7 @@
 
         if (e.type === 'mousemove' || e.type === 'touchmove' || e.type === 'mouseup') {
           if (xcrosshairs !== null) {
+            console.log('mousemove touchmove moouseup ' + e.type);
             xcrosshairs.classList.add('apexcharts-active');
           }
 
@@ -17918,6 +17920,7 @@
       key: "handleMouseOut",
       value: function handleMouseOut(opt) {
         var w = this.w;
+        console.log('handle mouse out');
         var xcrosshairs = this.getElXCrosshairs();
         opt.tooltipEl.classList.remove('apexcharts-active');
         this.deactivateHoverFilter();
