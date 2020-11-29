@@ -1,5 +1,5 @@
 /*!
- * ApexCharts v1.1.16
+ * ApexCharts v1.1.17
  * (c) 2018-2020 Juned Chhipa
  * Released under the MIT License.
  */
@@ -17361,6 +17361,7 @@
       this.fixedTooltip = this.tConfig.fixed.enabled;
       this.xaxisTooltip = null;
       this.yaxisTTEls = null;
+      this.disableCrosshairOnMobile = this.tConfig.disableCrosshairOnMobile;
       this.isBarShared = !w.globals.isBarHorizontal && this.tConfig.shared;
     }
 
@@ -17373,7 +17374,6 @@
     }, {
       key: "getElXCrosshairs",
       value: function getElXCrosshairs() {
-        console.log('getelxcrosshairs');
         return this.w.globals.dom.baseEl.querySelector('.apexcharts-xcrosshairs');
       }
     }, {
@@ -17746,7 +17746,7 @@
         w.globals.capturedDataPointIndex = -1;
 
         if (clientY < seriesBound.top || clientY > seriesBound.top + seriesBound.height) {
-          this.handleMouseOut(opt);
+          this.handleMouseOut(opt, e);
           return;
         }
 
@@ -17754,7 +17754,7 @@
           var index = parseInt(opt.paths.getAttribute('index'), 10);
 
           if (this.tConfig.enabledOnSeries.indexOf(index) < 0) {
-            this.handleMouseOut(opt);
+            this.handleMouseOut(opt, e);
             return;
           }
         }
@@ -17769,7 +17769,6 @@
 
         if (e.type === 'mousemove' || e.type === 'touchmove' || e.type === 'mouseup') {
           if (xcrosshairs !== null) {
-            console.log('mousemove touchmove moouseup ' + e.type);
             xcrosshairs.classList.add('apexcharts-active');
           }
 
@@ -17823,7 +17822,7 @@
 
           opt.tooltipEl.classList.add('apexcharts-active');
         } else if (e.type === 'mouseout' || e.type === 'touchend') {
-          this.handleMouseOut(opt);
+          this.handleMouseOut(opt, e);
         }
       } // tooltip handling for pie/donuts
 
@@ -17868,7 +17867,7 @@
         var capturedSeries = capj.capturedSeries;
 
         if (capj.hoverX < 0 || capj.hoverX > w.globals.gridWidth) {
-          this.handleMouseOut(opt);
+          this.handleMouseOut(opt, e);
           return;
         }
 
@@ -17889,7 +17888,7 @@
         var ignoreNull = w.globals.series[capturedSeries][j] === null;
 
         if (ignoreNull) {
-          this.handleMouseOut(opt);
+          this.handleMouseOut(opt, e);
           return;
         }
 
@@ -17918,9 +17917,26 @@
       }
     }, {
       key: "handleMouseOut",
-      value: function handleMouseOut(opt) {
+      value: function handleMouseOut(opt, e) {
+        if (this.disableCrosshairOnMobile) {
+          var elementLeftOn = e.relatedTarget || e.toElement;
+
+          if (elementLeftOn) {
+            if (elementLeftOn.classList.contains('remove_graph_filter') === false) {
+              if (elementLeftOn.parentNode) {
+                if (elementLeftOn.parentNode.classList.contains('remove_graph_filter') === false) {
+                  return;
+                }
+              } else {
+                return;
+              }
+            }
+          } else {
+            return;
+          }
+        }
+
         var w = this.w;
-        console.log('handle mouse out');
         var xcrosshairs = this.getElXCrosshairs();
         opt.tooltipEl.classList.remove('apexcharts-active');
         this.deactivateHoverFilter();

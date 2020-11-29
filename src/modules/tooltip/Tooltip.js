@@ -33,6 +33,7 @@ export default class Tooltip {
     this.fixedTooltip = this.tConfig.fixed.enabled
     this.xaxisTooltip = null
     this.yaxisTTEls = null
+    this.disableCrosshairOnMobile = this.tConfig.disableCrosshairOnMobile
     this.isBarShared = !w.globals.isBarHorizontal && this.tConfig.shared
   }
 
@@ -42,7 +43,6 @@ export default class Tooltip {
   }
 
   getElXCrosshairs() {
-    console.log('getelxcrosshairs')
     return this.w.globals.dom.baseEl.querySelector('.apexcharts-xcrosshairs')
   }
 
@@ -479,7 +479,7 @@ export default class Tooltip {
       clientY < seriesBound.top ||
       clientY > seriesBound.top + seriesBound.height
     ) {
-      this.handleMouseOut(opt)
+      this.handleMouseOut(opt, e)
       return
     }
 
@@ -489,7 +489,7 @@ export default class Tooltip {
     ) {
       const index = parseInt(opt.paths.getAttribute('index'), 10)
       if (this.tConfig.enabledOnSeries.indexOf(index) < 0) {
-        this.handleMouseOut(opt)
+        this.handleMouseOut(opt, e)
         return
       }
     }
@@ -515,7 +515,6 @@ export default class Tooltip {
       e.type === 'mouseup'
     ) {
       if (xcrosshairs !== null) {
-        console.log('mousemove touchmove moouseup ' + e.type)
         xcrosshairs.classList.add('apexcharts-active')
       }
 
@@ -569,7 +568,7 @@ export default class Tooltip {
 
       opt.tooltipEl.classList.add('apexcharts-active')
     } else if (e.type === 'mouseout' || e.type === 'touchend') {
-      this.handleMouseOut(opt)
+      this.handleMouseOut(opt, e)
     }
   }
 
@@ -615,7 +614,7 @@ export default class Tooltip {
     let capturedSeries = capj.capturedSeries
 
     if (capj.hoverX < 0 || capj.hoverX > w.globals.gridWidth) {
-      this.handleMouseOut(opt)
+      this.handleMouseOut(opt, e)
       return
     }
 
@@ -634,7 +633,7 @@ export default class Tooltip {
     const w = this.w
     let ignoreNull = w.globals.series[capturedSeries][j] === null
     if (ignoreNull) {
-      this.handleMouseOut(opt)
+      this.handleMouseOut(opt, e)
       return
     }
 
@@ -666,10 +665,28 @@ export default class Tooltip {
     }
   }
 
-  handleMouseOut(opt) {
+  handleMouseOut(opt, e) {
+    if (this.disableCrosshairOnMobile) {
+      let elementLeftOn = e.relatedTarget || e.toElement
+      if (elementLeftOn) {
+        if (elementLeftOn.classList.contains('remove_graph_filter') === false) {
+          if (elementLeftOn.parentNode) {
+            if (
+              elementLeftOn.parentNode.classList.contains(
+                'remove_graph_filter'
+              ) === false
+            ) {
+              return
+            }
+          } else {
+            return
+          }
+        }
+      } else {
+        return
+      }
+    }
     const w = this.w
-    console.log('handle mouse out')
-
     const xcrosshairs = this.getElXCrosshairs()
 
     opt.tooltipEl.classList.remove('apexcharts-active')
